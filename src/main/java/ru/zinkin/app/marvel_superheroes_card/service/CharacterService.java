@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.zinkin.app.marvel_superheroes_card.dao.CharacterDao;
 import ru.zinkin.app.marvel_superheroes_card.dao.ComicsDao;
-import ru.zinkin.app.marvel_superheroes_card.model.pojo.Character;
+import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 
 import java.time.LocalDate;
@@ -21,6 +21,8 @@ public class CharacterService {
     private final CharacterDao characterDao;
     private final ComicsDao comicsDao;
 
+    private final String resourceUrl = "http://localhost:8091/v1/public/image";
+
     @Autowired
     public CharacterService(CharacterDao characterDao, ComicsDao comicsDao) {
         this.characterDao = characterDao;
@@ -28,7 +30,7 @@ public class CharacterService {
         initDB();
     }
     private void initDB() {
-        Character character = characterDao.save(new Character("id",
+        Characters characters = characterDao.save(new Characters("id",
                 "id",
                 70,
                 970,
@@ -39,8 +41,8 @@ public class CharacterService {
                 "id",
                 "id",
                 List.of("id_man"),
-                List.of("main.png")));
-        Character character2 = characterDao.save(new Character("id2",
+                "main.png"));
+        Characters characters2 = characterDao.save(new Characters("id2",
                 "id2",
                 70,
                 970,
@@ -51,8 +53,8 @@ public class CharacterService {
                 "id",
                 "id",
                 List.of("id_man2"),
-                List.of("main2.png")));
-        Character character3 = characterDao.save(new Character("id3",
+                "main2.png"));
+        Characters characters3 = characterDao.save(new Characters("id3",
                 "ada2",
                 72,
                 953,
@@ -63,7 +65,7 @@ public class CharacterService {
                 "high school",
                 "id3",
                 List.of("id_man55"),
-                List.of("main6.png")));
+                "main6.png"));
 
         comicsDao.save(new Comics(
                 "id",
@@ -74,7 +76,7 @@ public class CharacterService {
                 List.of("Писатель2"),
                 List.of("Художник1"),
                 List.of("Что-то там1"),
-                List.of(character, character2)
+                List.of(characters, characters2)
         ));
         comicsDao.save(new Comics(
                 "a-o-s",
@@ -85,7 +87,7 @@ public class CharacterService {
                 List.of("Писатель2"),
                 List.of("Художник1"),
                 List.of("Что-то там2"),
-                List.of(character3)
+                List.of(characters3)
         ));
         comicsDao.save(new Comics(
                 "tt3-4s-32",
@@ -96,13 +98,13 @@ public class CharacterService {
                 List.of("Писатель1"),
                 List.of("Художник2"),
                 List.of("Что-то там3"),
-                List.of(character3,character2)
+                List.of(characters3, characters2)
         ));
 
     }
 
 
-    public Page<Character> getAll(Map<String,Object> claims){
+    public Page<Characters> getAll(Map<String,Object> claims){
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")){
@@ -114,11 +116,19 @@ public class CharacterService {
                 elementToPage = 10;
             }
         }
-        return characterDao.findAll(PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+        Page<Characters> characters = characterDao.findAll(PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+        for (Characters ch:characters) {
+            ch.setImg(String.join("/",resourceUrl,ch.getImg()));
+        }
+        return characters;
     }
 
-    public Optional<Character> findById(String id){
-        return characterDao.findById(id);
+    public Optional<Characters> findById(String id){
+        Optional<Characters> characters = characterDao.findById(id);
+        if(characters.isPresent()){
+            characters.get().setImg(String.join("/",resourceUrl,characters.get().getImg()));
+        }
+        return characters;
     }
 
     public Page<Comics> findComicsByCharacterId(String ch,Map<String,Object> claims){
@@ -133,11 +143,37 @@ public class CharacterService {
                 elementToPage = 10;
             }
         }
-        return characterDao.getComicsByCharacterId(ch,PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+
+        Page<Comics> comics = characterDao.getComicsByCharacterId(ch,PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+        if(!comics.isEmpty()) {
+            for (Comics c:comics) {
+                c.setImages(String.join("/",resourceUrl,c.getImages()));
+            }
+        }
+        return comics;
     }
 
     public boolean existById(String id){
         return characterDao.existsById(id);
+    }
+
+    public boolean save(Characters character){
+        if(character.getId() != null && !characterDao.existsById(character.getId())){
+            character = characterDao.save(character);
+            return true;
+        } else if((characterDao.existsById(character.getId()))){
+            throw new RuntimeException("Такой ID уже существует.");
+        }
+        return false;
+    }
+
+    public boolean editCharacter(String id,Characters characters){
+        if(!id.equals(characters.getId())){
+            return false;
+        } else {
+            characterDao.save(characters);
+            return true;
+        }
     }
 
 

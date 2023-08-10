@@ -2,12 +2,8 @@ package ru.zinkin.app.marvel_superheroes_card.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.multipart.MultipartFile;
-import ru.zinkin.app.marvel_superheroes_card.model.pojo.Character;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -54,7 +50,7 @@ public class Comics {
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     @JsonIgnore
-    private List<Character> characters;
+    private List<Characters> characters;
 
     public Comics(String id,
                   String name,

@@ -1,16 +1,14 @@
 package ru.zinkin.app.marvel_superheroes_card.service;
 
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.zinkin.app.marvel_superheroes_card.dao.ComicsDao;
-import ru.zinkin.app.marvel_superheroes_card.model.pojo.Character;
+import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 
-import javax.xml.stream.events.Comment;
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,6 +17,7 @@ import java.util.Optional;
 public class ComicsService {
 
     private final ComicsDao comicsDao;
+    private final String resourceUrl = "http://localhost:8091/v1/public/image";
 
     public Page<Comics> getComicsAll(Map<String,Object> claims){
         /*
@@ -36,14 +35,20 @@ public class ComicsService {
                 elementToPage = 10;
             }
         }
+        Page<Comics> comics = comicsDao.findAll(PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+        for (Comics c:comics) {
+            c.setImages(String.join("/",resourceUrl,c.getImages()));
+        }
         return comicsDao.findAll(PageRequest.of(currentPage,elementToPage,Sort.by("name")));
     }
 
     public Optional<Comics> getComicsById(String id){
+        Optional<Comics> comics = comicsDao.findById(id);
+        comics.ifPresent(x -> x.setImages(String.join("/", resourceUrl, x.getImages())));
         return comicsDao.findById(id);
     }
 
-    public Page<Character> getCharacterByComicsId(String id,Map<String,Object> claims){
+    public Page<Characters> getCharacterByComicsId(String id, Map<String,Object> claims){
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")) {
@@ -55,7 +60,12 @@ public class ComicsService {
                 elementToPage = 10;
             }
         }
-        return comicsDao.getCharacterByComicsId(id,PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+        Page<Characters> characters =  comicsDao.getCharacterByComicsId(id,PageRequest.of(currentPage,elementToPage,Sort.by("name")));
+
+        for (Characters c:characters){
+            c.setImg(String.join("/",resourceUrl,c.getImg()));
+        }
+        return characters;
     }
 
     public Boolean existById(String id){
@@ -75,7 +85,7 @@ public class ComicsService {
 
     public boolean editComics(String id, Comics comment){
         Comics comics = null;
-        if(id.equals(comment.getId()) || comicsDao.existsById(comment.getId())){
+        if(id.equals(comment.getId()) && comicsDao.existsById(comment.getId())){
             comics = comicsDao.save(comment);
         }
         return comics != null;

@@ -2,6 +2,7 @@ package ru.zinkin.app.marvel_superheroes_card.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.List;
 @Setter
 @Table(name = "characters")
 @Builder
-public class Character {
+public class Characters {
     @Id
+    @NotNull
     private String id;
     @Column(name = "name")
+    @NotNull
     private String name;
     @Column(name = "height")
     private Integer height;
@@ -42,25 +45,24 @@ public class Character {
     @ElementCollection
     private List<String> known_relatives;
     @Column(name = "images")
-    @ElementCollection
-    private List<String> name_img;
+    private String img;
 
     @ManyToMany(mappedBy = "characters")
     @JsonIgnore
     private List<Comics> comics;
 
-    public Character(String id,
-                     String name,
-                     Integer height,
-                     Integer weight,
-                     List<String> eyes,
-                     List<String> hair,
-                     String universe,
-                     List<String> other_aliases,
-                     String education,
-                     String place_of_origin,
-                     List<String> known_relatives,
-                     List<String> name_img) {
+    public Characters(String id,
+                      String name,
+                      Integer height,
+                      Integer weight,
+                      List<String> eyes,
+                      List<String> hair,
+                      String universe,
+                      List<String> other_aliases,
+                      String education,
+                      String place_of_origin,
+                      List<String> known_relatives,
+                      String name_img) {
         this.id = id;
         this.name = name;
         this.height = height;
@@ -72,7 +74,7 @@ public class Character {
         this.education = education;
         this.place_of_origin = place_of_origin;
         this.known_relatives = known_relatives;
-        this.name_img = name_img;
+        this.img = name_img;
     }
 
 

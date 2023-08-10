@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.zinkin.app.marvel_superheroes_card.model.pojo.Character;
+import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 import ru.zinkin.app.marvel_superheroes_card.service.CharacterService;
 
@@ -21,7 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Api(value = "Работа с персонажами", tags = {"Characters"})
 public class CharactersController {
-
     private final CharacterService characterService;
 
     @ApiOperation(value = "Получение персонажей с пагинацией и сортировкой по имени")
@@ -48,7 +47,7 @@ public class CharactersController {
     })
     @GetMapping("/{characterId}")
     public ResponseEntity<?> getCharacterById(@PathVariable("characterId") String id){
-        Optional<Character> characters = characterService.findById(id);
+        Optional<Characters> characters = characterService.findById(id);
         if(characters.isPresent()){
             return ResponseEntity.ok(characters.get());
         }
