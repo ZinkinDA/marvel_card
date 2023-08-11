@@ -16,6 +16,7 @@ import ru.zinkin.app.marvel_superheroes_card.service.ComicsService;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,11 +51,10 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Комикс с именем %s создан. \n http://localhost:8091/v1/public/comics/%s",comics.getName(),comics.getId()));
     }
 
-    @PutMapping("/comics/{comicsId}")
-    public ResponseEntity<?> editComics(@PathVariable("comicsId") String comicsId,
-                                        @RequestBody Comics comics){
-        if(comicsService.editComics(comicsId,comics)){
-            return ResponseEntity.status(HttpStatus.CREATED).body("Комментарий изменен");
+    @PutMapping("/comics/edit")
+    public ResponseEntity<?> editComics(@RequestBody Comics comics){
+        if(comicsService.editComics(comics)){
+            return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
     }
@@ -128,5 +128,22 @@ public class AdminController {
         }
 
     }
+
+    @PutMapping("/comics/{comicsId}/add-hero")
+    public ResponseEntity<?> addCharacterForComics(@PathVariable("comicsId") String comicsId,
+                                                   @RequestBody String characterId){
+        if(!characterService.existById(characterId)){
+            return ResponseEntity.status(404).body("Персонаж не найден!");
+        }
+        if(!comicsService.existById(comicsId)){
+            return ResponseEntity.status(404).body("Комикс не найден!");
+        }
+        Comics comics = comicsService.getComicsById(comicsId).get();
+        List<Characters> characters = comics.getCharacters();
+        characters.add(characterService.findById(characterId).get());
+        comicsService.editComics(comics);
+        return ResponseEntity.status(200).body("Комикс добавлен");
+    }
+
 
 }

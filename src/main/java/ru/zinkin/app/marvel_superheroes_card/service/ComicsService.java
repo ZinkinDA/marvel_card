@@ -78,23 +78,23 @@ public class ComicsService {
             throw new RuntimeException("Такой id комикса уже существует!");
         }
         comics = comicsDao.save(comics);
+        comicsDao.flush();
         return comics.getId() != null;
     }
 
     // _________________________Потом редактируем___________________________________
 
-    public boolean editComics(String id, Comics comment){
-        Comics comics = null;
-        if(id.equals(comment.getId()) && comicsDao.existsById(comment.getId())){
-            comics = comicsDao.save(comment);
-        }
-        return comics != null;
-    }
     public boolean editComics(Comics comment){
         Comics comics = null;
         if(comicsDao.existsById(comment.getId())){
-            comics = comicsDao.save(comment);
+            comics = comment;
+            String[] strComics = comics.getImages().split("/");
+            if(strComics.length > 1){
+                comics.setImages(strComics[strComics.length-1]);
+            }
+            comics = comicsDao.save(comics);
         }
+        comicsDao.flush();
         return comics != null;
     }
 }

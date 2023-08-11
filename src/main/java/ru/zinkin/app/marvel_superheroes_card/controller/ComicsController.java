@@ -67,7 +67,6 @@ public class ComicsController {
         if(!comicsService.existById(comicsId)){
             return ResponseEntity.status(404).body("Комикс не найден");
         }
-
         Map<String,Object> claims = new HashMap<>();
         if(cp != null) {
             claims.put("currentPage",cp);

@@ -61,7 +61,7 @@ public class CharacterService {
                 List.of("blue", "green"),
                 List.of("yellow", "blue"),
                 "marvel_universe2",
-                List.of(),
+                List.of("Леха","Лёха"),
                 "high school",
                 "id3",
                 List.of("id_man55"),
