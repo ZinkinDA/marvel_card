@@ -27,7 +27,7 @@ public class CharacterService {
     public CharacterService(CharacterDao characterDao, ComicsDao comicsDao) {
         this.characterDao = characterDao;
         this.comicsDao = comicsDao;
-        initDB();
+//        initDB();
     }
     private void initDB() {
         Characters characters = characterDao.save(new Characters("id",
