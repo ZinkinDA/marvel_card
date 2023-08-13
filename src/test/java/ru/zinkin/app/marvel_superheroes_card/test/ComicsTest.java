@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureDataJpa
 class ComicsTest  {
     @Autowired
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
     @Test
     public void checkAllComicsAPI() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/v1/public/comics"))
