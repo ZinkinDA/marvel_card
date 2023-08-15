@@ -43,7 +43,7 @@ public class ComicsController {
     @ApiOperation(value = "Получение комикса по его Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "Комикс по id"),
-            @ApiResponse(code = 404,message = "Комиксы не найдены!")
+            @ApiResponse(code = 404,message = "Комикс не найден!")
     })
     @GetMapping("/{comicsId}")
     public ResponseEntity<?> getComicsById(@PathVariable("comicsId") String id){

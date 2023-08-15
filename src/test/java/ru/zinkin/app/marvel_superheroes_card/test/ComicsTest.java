@@ -26,7 +26,8 @@ class ComicsTest  {
     public void checkAllComicsAPI() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/v1/public/comics"))
                 .andDo(print())
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.content").isArray());
     }
 
     @Test

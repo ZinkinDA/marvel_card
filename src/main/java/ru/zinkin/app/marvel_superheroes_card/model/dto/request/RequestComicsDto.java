@@ -17,6 +17,7 @@ public class RequestComicsDto {
     private String id;
     @NonNull
     private String name;
+    @NonNull
     private String description;
     @NonNull
     private LocalDate published;

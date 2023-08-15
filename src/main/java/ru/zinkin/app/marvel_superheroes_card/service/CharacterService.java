@@ -31,7 +31,7 @@ public class CharacterService {
     }
     private void initDB() {
         Characters characters = characterDao.save(new Characters("id",
-                "id",
+                "a_name",
                 70,
                 970,
                 List.of("id_eyes"),
@@ -43,7 +43,7 @@ public class CharacterService {
                 List.of("id_man"),
                 "main.png"));
         Characters characters2 = characterDao.save(new Characters("id2",
-                "id2",
+                "b_name",
                 70,
                 970,
                 List.of("id_eyes2"),
@@ -55,7 +55,7 @@ public class CharacterService {
                 List.of("id_man2"),
                 "main2.png"));
         Characters characters3 = characterDao.save(new Characters("id3",
-                "ada2",
+                "c_name",
                 72,
                 953,
                 List.of("blue", "green"),
@@ -69,7 +69,7 @@ public class CharacterService {
 
         comicsDao.save(new Comics(
                 "id",
-                "id_name",
+                "a_comics_name",
                 "description ids",
                 LocalDate.of(2023,8,2),
                 "img3.txt",
@@ -80,7 +80,7 @@ public class CharacterService {
         ));
         comicsDao.save(new Comics(
                 "a-o-s",
-                "au our state",
+                "b-o-s",
                 "u stare output kids",
                 LocalDate.of(2022,11,3),
                 "img4.txt",
