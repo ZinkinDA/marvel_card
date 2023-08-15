@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 import ru.zinkin.app.marvel_superheroes_card.service.CharacterService;
+import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Api(value = "Работа с персонажами", tags = {"Characters"})
 public class CharactersController {
-    private final CharacterService characterService;
+    private final AbstractCharacterService characterService;
 
     @ApiOperation(value = "Получение персонажей с пагинацией и сортировкой по имени")
     @ApiResponses(value = {

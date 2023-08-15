@@ -7,8 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.zinkin.app.marvel_superheroes_card.dao.CharacterDao;
 import ru.zinkin.app.marvel_superheroes_card.dao.ComicsDao;
+import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestCharacterDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
+import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterDtoService;
+import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterService;
+import ru.zinkin.app.marvel_superheroes_card.util.CharactersConverter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,18 +20,20 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class CharacterService {
+public class CharacterService implements AbstractCharacterService{
 
     private final CharacterDao characterDao;
     private final ComicsDao comicsDao;
+    private final CharactersConverter charactersConverter;
 
     private final String resourceUrl = "http://localhost:8091/v1/public/image";
 
     @Autowired
-    public CharacterService(CharacterDao characterDao, ComicsDao comicsDao) {
+    public CharacterService(CharacterDao characterDao, ComicsDao comicsDao, CharactersConverter charactersConverter) {
         this.characterDao = characterDao;
         this.comicsDao = comicsDao;
-//        initDB();
+        this.charactersConverter = charactersConverter;
+        initDB();
     }
     private void initDB() {
         Characters characters = characterDao.save(new Characters("id",
@@ -103,8 +109,8 @@ public class CharacterService {
 
     }
 
-
-    public Page<Characters> getAll(Map<String,Object> claims){
+    @Override
+    public Page<Characters> getAll(Map<String, Object> claims){
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")){
@@ -123,6 +129,7 @@ public class CharacterService {
         return characters;
     }
 
+    @Override
     public Optional<Characters> findById(String id){
         Optional<Characters> characters = characterDao.findById(id);
         if(characters.isPresent()){
@@ -131,7 +138,8 @@ public class CharacterService {
         return characters;
     }
 
-    public Page<Comics> findComicsByCharacterId(String ch,Map<String,Object> claims){
+    @Override
+    public Page<Comics> findComicsByCharacterId(String ch, Map<String, Object> claims){
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")){
@@ -153,10 +161,12 @@ public class CharacterService {
         return comics;
     }
 
+    @Override
     public boolean existById(String id){
         return characterDao.existsById(id);
     }
 
+    @Override
     public boolean save(Characters character){
         if(character.getId() != null && !characterDao.existsById(character.getId())){
             character = characterDao.save(character);
@@ -166,8 +176,14 @@ public class CharacterService {
         }
         return false;
     }
+    @Override
+    public boolean saveDto(RequestCharacterDto character){
+        Characters characters = charactersConverter.converted(character);
+        return save(characters);
+    }
 
-    public boolean editCharacter(String id,Characters characters){
+    @Override
+    public boolean editCharacter(String id, Characters characters){
         if(!id.equals(characters.getId())){
             return false;
         } else {
@@ -175,6 +191,7 @@ public class CharacterService {
             return true;
         }
     }
+
 
 
 }

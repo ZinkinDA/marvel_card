@@ -6,20 +6,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.zinkin.app.marvel_superheroes_card.dao.ComicsDao;
+import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestComicsDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
+import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractComicsDtoService;
+import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractComicsService;
+import ru.zinkin.app.marvel_superheroes_card.util.ComicsConverter;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ComicsService {
+public class ComicsService implements AbstractComicsService {
 
     private final ComicsDao comicsDao;
-    private final String resourceUrl = "http://localhost:8091/v1/public/image";
+    private final ComicsConverter comicsConverter;
 
-    public Page<Comics> getComicsAll(Map<String,Object> claims){
+    private final String resourceUrl = "http://localhost:8091/v1/public/image";
+    @Override
+    public Page<Comics> getComicsAll(Map<String, Object> claims){
         /*
             Реализовать пагинацию везде PageRequest.of(page,size,Sort);
 
@@ -41,14 +48,14 @@ public class ComicsService {
         }
         return comicsDao.findAll(PageRequest.of(currentPage,elementToPage,Sort.by("name")));
     }
-
+    @Override
     public Optional<Comics> getComicsById(String id){
         Optional<Comics> comics = comicsDao.findById(id);
         comics.ifPresent(x -> x.setImages(String.join("/", resourceUrl, x.getImages())));
         return comicsDao.findById(id);
     }
-
-    public Page<Characters> getCharacterByComicsId(String id, Map<String,Object> claims){
+    @Override
+    public Page<Characters> getCharacterByComicsId(String id, Map<String, Object> claims){
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")) {
@@ -67,23 +74,31 @@ public class ComicsService {
         }
         return characters;
     }
-
+    @Override
     public Boolean existById(String id){
         return comicsDao.existsById(id);
     }
-
-    //_________________ При создании нового комикса сначало сохраняем.______________
+    @Override
     public boolean saveComics(Comics comics){
         if(comicsDao.existsById(comics.getId())){
             throw new RuntimeException("Такой id комикса уже существует!");
+        }
+        if(comics.getImages() == null){
+            comics.setImages("standart_comics.png");
+        }
+        if(comics.getCharacters() == null){
+            comics.setCharacters(new ArrayList<>());
         }
         comics = comicsDao.save(comics);
         comicsDao.flush();
         return comics.getId() != null;
     }
-
-    // _________________________Потом редактируем___________________________________
-
+    @Override
+    public boolean saveComicsDto(RequestComicsDto requestComicsDto) {
+        Comics comics = comicsConverter.converted(requestComicsDto);
+        return saveComics(comics);
+    }
+    @Override
     public boolean editComics(Comics comment){
         Comics comics = null;
         if(comicsDao.existsById(comment.getId())){
