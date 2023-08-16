@@ -31,9 +31,9 @@ import java.util.logging.Logger;
 @Api(value = "Работа c данными для заполнения таблиц", tags = {"Admin","POST/PUT request"})
 public class AdminController {
 
+    private final Logger logger = Logger.getLogger("Admin");
     @Value("${upload.path}")
     private String path;
-
     private final AbstractCharacterService characterService;
     private final ComicsService comicsService;
 
@@ -44,7 +44,7 @@ public class AdminController {
     })
     @PostMapping("/comics/save")
     public ResponseEntity<?> saveComics(@RequestBody RequestComicsDto requestComicsDto){
-
+        logger.log(Level.INFO,"Вызов метода saveComics");
         try {
             if(!comicsService.saveComicsDto(requestComicsDto)){
                 return ResponseEntity.status(400).body("Проверьте правильность ввода данных.");
@@ -63,6 +63,7 @@ public class AdminController {
     })
     @PutMapping("/comics/edit")
     public ResponseEntity<?> editComics(@RequestBody Comics comics){
+        logger.log(Level.INFO,"Вызов метода editComics");
         if(comicsService.editComics(comics)){
             return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
         }
@@ -77,6 +78,7 @@ public class AdminController {
     })
     @PostMapping("/comics/upload/{comicsId}")
     public ResponseEntity<String> uploadPhotoForComics(@PathVariable("comicsId") String id, @RequestPart("img")MultipartFile multipartFile) throws IOException {
+        logger.log(Level.INFO,"Вызов метода uploadPhotoForComics");
         if(!comicsService.existById(id)){
             return ResponseEntity.status(404).body("Комикс не найден!");
         }
@@ -91,12 +93,6 @@ public class AdminController {
                 boolean a = file.mkdir();
             }
             String filename = String.join(".",UUID.randomUUID().toString(),multipartFile.getOriginalFilename());
-            /**
-             *  Метод File.separator ставит знак разделитель "\" потому что System относится к windows , а в докере надо "/"
-             *  multipartFile.transferTo(new File(String.join(File.separator,path,filename))); - не работает!
-             */
-
-            Logger.getGlobal().log(Level.WARNING,filename);
             multipartFile.transferTo(new File(path + filename));
             comics.setImages(filename);
         }
@@ -113,6 +109,7 @@ public class AdminController {
     @PostMapping("/character/upload/{characterId}")
     public ResponseEntity<String> uploadPhotoForCharacter(@PathVariable("characterId") String id,
                                                           @RequestPart("img") MultipartFile multipartFile) throws IOException {
+        logger.log(Level.INFO,"Вызов метода uploadPhotoForCharacter");
         if(!characterService.existById(id)){
             return ResponseEntity.status(404).body("Персонаж не найден!");
         }
@@ -142,6 +139,7 @@ public class AdminController {
     })
     @PostMapping("/character/save")
     public ResponseEntity<?> saveCharacter(@RequestBody RequestCharacterDto characterDto){
+        logger.log(Level.INFO,"Вызов метода saveCharacters");
         try {
             if(characterService.saveDto(characterDto)){
                 return ResponseEntity.status(HttpStatus.CREATED).body((String.format("Пользователь с именем %s создан. \n http://localhost:8091/v1/public/characters/%s",characterDto.getName(),characterDto.getId())));
@@ -161,8 +159,9 @@ public class AdminController {
             @ApiResponse(code = 404,message = "Комикс не найден")
     })
     @PutMapping("/comics/{comicsId}/add-hero")
-    public ResponseEntity<?> addCharacterForComics(@PathVariable("comicsId") String comicsId,
+    public ResponseEntity<?> addCharacterToComics(@PathVariable("comicsId") String comicsId,
                                                    @RequestBody String characterId){
+        logger.log(Level.INFO,"Вызов метода addCharacterToComics");
         if(!characterService.existById(characterId)){
             return ResponseEntity.status(404).body("Персонаж не найден!");
         }

@@ -26,10 +26,6 @@ public class ComicsService implements AbstractComicsService {
     private final String resourceUrl = "http://localhost:8091/v1/public/image";
     @Override
     public Page<Comics> getComicsAll(Map<String, Object> claims){
-        /*
-            Реализовать пагинацию везде PageRequest.of(page,size,Sort);
-
-         */
         int currentPage = 0;
         int elementToPage = 10;
         if(claims.containsKey("currentPage")) {
@@ -99,16 +95,20 @@ public class ComicsService implements AbstractComicsService {
     }
     @Override
     public boolean editComics(Comics comment){
+        Comics ecomics = null;
         Comics comics = null;
+
         if(comicsDao.existsById(comment.getId())){
-            comics = comment;
-            String[] strComics = comics.getImages().split("/");
+            comics = getComicsById(comment.getId()).get();
+            ecomics = comment;
+            ecomics.setImages(comics.getImages());
+            String[] strComics = ecomics.getImages().split("/");
             if(strComics.length > 1){
-                comics.setImages(strComics[strComics.length-1]);
+                ecomics.setImages(strComics[strComics.length-1]);
             }
-            comics = comicsDao.save(comics);
+            ecomics = comicsDao.save(ecomics);
         }
         comicsDao.flush();
-        return comics != null;
+        return ecomics != null;
     }
 }

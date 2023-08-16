@@ -16,7 +16,7 @@ public class ComicsConverter implements ConverterUtil<Comics,RequestComicsDto> {
                 requestComicsDto.getName(),
                 requestComicsDto.getDescription(),
                 requestComicsDto.getPublished(),
-                "standart_character.png",
+                "standart_comics.png",
                 requestComicsDto.getWriters(),
                 requestComicsDto.getPencilers(),
                 requestComicsDto.getCover_artist(),
