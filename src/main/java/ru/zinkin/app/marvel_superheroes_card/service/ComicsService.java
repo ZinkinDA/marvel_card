@@ -1,6 +1,7 @@
 package ru.zinkin.app.marvel_superheroes_card.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,20 +11,26 @@ import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestComicsDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractComicsService;
-import ru.zinkin.app.marvel_superheroes_card.util.ComicsConverter;
+import ru.zinkin.app.marvel_superheroes_card.util.abstracts.ConverterUtil;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ComicsService implements AbstractComicsService {
 
     private final ComicsDao comicsDao;
-    private final ComicsConverter comicsConverter;
+    @Qualifier(value = "comicsConverter")
+    private final ConverterUtil<Comics,RequestComicsDto> comicsConverter;
 
     private final String resourceUrl = "http://localhost:8091/v1/public/image";
+    @Autowired
+    public ComicsService(ComicsDao comicsDao, ConverterUtil<Comics, RequestComicsDto> comicsConverter) {
+        this.comicsDao = comicsDao;
+        this.comicsConverter = comicsConverter;
+    }
+
     @Override
     public Page<Comics> getComicsAll(Map<String, Object> claims){
         int currentPage = 0;
