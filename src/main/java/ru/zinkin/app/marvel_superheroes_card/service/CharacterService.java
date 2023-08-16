@@ -10,7 +10,6 @@ import ru.zinkin.app.marvel_superheroes_card.dao.ComicsDao;
 import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestCharacterDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
-import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterDtoService;
 import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterService;
 import ru.zinkin.app.marvel_superheroes_card.util.CharactersConverter;
 

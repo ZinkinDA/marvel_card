@@ -1,7 +1,6 @@
 package ru.zinkin.app.marvel_superheroes_card.service.abstracts;
 
 import org.springframework.data.domain.Page;
-import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestCharacterDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 

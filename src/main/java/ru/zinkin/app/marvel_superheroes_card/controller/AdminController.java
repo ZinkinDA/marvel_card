@@ -14,14 +14,11 @@ import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestCharacterD
 import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestComicsDto;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
-import ru.zinkin.app.marvel_superheroes_card.service.CharacterService;
 import ru.zinkin.app.marvel_superheroes_card.service.ComicsService;
 import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterService;
-import ru.zinkin.app.marvel_superheroes_card.util.CharactersConverter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

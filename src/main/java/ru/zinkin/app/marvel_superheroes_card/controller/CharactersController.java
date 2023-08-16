@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
-import ru.zinkin.app.marvel_superheroes_card.service.CharacterService;
 import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacterService;
 
 import java.util.HashMap;
