@@ -18,8 +18,9 @@ import java.util.List;
 public class Characters {
     @Id
     @NotNull
+    @Column(name = "id",updatable = false,length = 200)
     private String id;
-    @Column(name = "name")
+    @Column(name = "name",updatable = false,length = 200)
     @NotNull
     private String name;
     @Column(name = "height")

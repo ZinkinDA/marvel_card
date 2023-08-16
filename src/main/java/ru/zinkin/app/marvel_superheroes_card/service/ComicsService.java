@@ -108,6 +108,8 @@ public class ComicsService implements AbstractComicsService {
         if(comicsDao.existsById(comment.getId())){
             comics = getComicsById(comment.getId()).get();
             ecomics = comment;
+            ecomics.setId(comics.getId());
+            ecomics.setName(comics.getName());
             ecomics.setImages(comics.getImages());
             String[] strComics = ecomics.getImages().split("/");
             if(strComics.length > 1){
