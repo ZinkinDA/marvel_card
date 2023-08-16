@@ -3,6 +3,7 @@ package ru.zinkin.app.marvel_superheroes_card.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -16,5 +17,14 @@ public class MvcConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addResourceHandlers(registry);
         registry.addResourceHandler("/v1/public/image/**")
                 .addResourceLocations(String.format("file:///%s/",path));
+    }
+
+    /*
+    *       Оставил дефолтную конфигурацию
+     */
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        WebMvcConfigurer.super.addViewControllers(registry);
     }
 }
