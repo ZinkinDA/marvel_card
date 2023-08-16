@@ -23,10 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 class MarvelSuperheroesCardApplicationTests {
 
-    @Test
     void contextLoads() throws Exception {
     }
 

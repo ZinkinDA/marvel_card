@@ -11,3 +11,15 @@ services:
       - "POSTGRES_DB=marvel_schema"
     ports:
       - "5432:5432"
+  application:
+    build: ./
+    container_name: "java-app"
+    ports:
+      - "8090:8090"
+    environment:
+      - "db-password=root"
+      - "db-schema=marvel_schema"
+      - "db-url-hosts=marvel-card-postgres"
+      - "db-username=postgres"
+      - "pathToUpload=C:\Users\Dmitry Zinkin\IdeaProjects\Krat12\p_sto_2\-\marvel_card\src\main\resources\static\image"
+      - "db-url-port=5432"
