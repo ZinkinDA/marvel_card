@@ -43,7 +43,7 @@ public class AdminController {
             @ApiResponse(code = 400 , message = "Не правильный ввод данных или персонаж уже существует.")
     })
     @PostMapping("/comics/save")
-    public ResponseEntity<?> saveComics(@RequestBody RequestComicsDto requestComicsDto) throws IOException {
+    public ResponseEntity<?> saveComics(@RequestBody RequestComicsDto requestComicsDto){
 
         try {
             if(!comicsService.saveComicsDto(requestComicsDto)){
