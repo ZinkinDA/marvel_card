@@ -61,38 +61,82 @@ public class InitDatabaseService {
                 List.of("id_man55"),
                 "main6.png"));
 
-        comicsDao.save(new Comics(
-                "id",
-                "a_comics_name",
-                "description ids",
-                LocalDate.of(2023,8,2),
-                "img3.txt",
-                List.of("Писатель2"),
-                List.of("Художник1"),
-                List.of("Что-то там1"),
-                List.of(characters, characters2)
+        Comics comics = comicsDao.save(new Comics(
+                "immortal_hulk_2018_1",
+                "Immortal Hulk (2018) #1",
+                "The FIRST issue of the Immortal Hulk! Al Ewing and Joe Bennett's critically-acclaimed and best-selling Immortal Hulk series kicks off here with THE RETURN OF BRUCE BANNER! You know Bruce Banner. He's quiet, calm, never complains. He's a man who believes he can use the darkest elements of his personality to do good in the world. If someone were to shoot him in the head...all he'd do is die. But the horror lives deeper. A horror that refuses to die. When night falls something other than the man gets up again. The horror is the Immortal Hulk.",
+                LocalDate.of(2018,6,6),
+                "standart_comics.png",
+                List.of("Al Ewing"),
+                List.of("Joe Bennett"),
+                List.of(),
+                List.of()
         ));
-        comicsDao.save(new Comics(
-                "a-o-s",
-                "b-o-s",
-                "u stare output kids",
-                LocalDate.of(2022,11,3),
-                "img4.txt",
-                List.of("Писатель2"),
-                List.of("Художник1"),
-                List.of("Что-то там2"),
-                List.of(characters3)
+        Comics comics2 =comicsDao.save(new Comics(
+                "marvels_spider-man_2_2023_1",
+                "Marvel's Spider-Man 2 (2023) #1",
+                "In the lead up to events in Marvel's Spider-Man 2, Peter and Miles team up to face an all-new threat!",
+                LocalDate.of(2023,5,1),
+                "standart_comics.png",
+                List.of("Christos Gage"),
+                List.of("Todd Nauck", "Ig Guara"),
+                List.of("Todd Nauck"),
+                List.of()
         ));
-        comicsDao.save(new Comics(
-                "tt3-4s-32",
-                "tees",
-                "description t-e-e-s",
-                LocalDate.of(2023,1,21),
-                "img5.txt",
-                List.of("Писатель1"),
-                List.of("Художник2"),
-                List.of("Что-то там3"),
-                List.of(characters3, characters2)
+        Comics comics3 = comicsDao.save(new Comics(
+                "911_20th_anniversary_tribute_the_four_fives_2021_1",
+                "9/11 20th Anniversary Tribute: The Four Fives (2021) #1",
+                "In honor and in remembrance of 9/11/01.",
+                LocalDate.of(2021,9,8),
+                "standart_comics.png",
+                List.of("Joe Quesada"),
+                List.of("John Romita"),
+                List.of(),
+                List.of()
+        ));
+        Comics comics4= comicsDao.save(new Comics(
+                "the_vitals_true_ems_stories_2021",
+                "The Vitals: True EMS Stories (2021)",
+                "Healthcare workers are on the frontlines during this difficult time. THE VITALS tells tales of some real heroes, the EMS teams, as they travel to high-risk environments in order to rescue those in urgent need.",
+                LocalDate.of(2021,6,1),
+                "standart_comics.png",
+                List.of("Sean Ryan"),
+                List.of("Ramón F. Bachs"," Ray-Anthony Height","J.L. Giles","Ze Carlos"),
+                List.of(),
+                List.of()
+        ));
+        Comics comics5 = comicsDao.save(new Comics(
+                "109961",
+                "Spider-Man (2022) #11",
+                "(RE)INTRODUCING…SPIDER-BOY! The battle to save the Spider-Verse may be over, but spinning out of the restored Web of Life and Destiny returns the spectacular SPIDER-BOY, Peter Parker's stupendous sidekick! Wait, that can't be right - who IS this Spider-Boy, and what is his connection to the Amazing Spider-Man?!",
+                LocalDate.of(2023,4,16),
+                "standart_comics.png",
+                List.of("Dan Slott"),
+                List.of("Luciano Vecchio"),
+                List.of("Mark Bagley"),
+                List.of()
+        ));
+        Comics comics6 = comicsDao.save(new Comics(
+                "venom_2018_1",
+                "Venom (2018) #1",
+                "In the wake of S.H.I.E.L.D.'s collapse, an ancient and primordial evil has been awakened beneath the streets of New York, and with it, something equally evil has awakened in that most Wicked of Webslingers - VENOM! Still a Lethal Protector of the innocents in New York, this never-before-seen threat could force Venom to relinquish everything it holds dear - including Eddie Brock! Join two of the hottest creators in comics today, Donny Cates and Ryan Stegman, for a VENOM adventure a thousand years in the making!",
+                LocalDate.of(2018,5,9),
+                "standart_comics.png",
+                List.of("Donny Cates"),
+                List.of("Ryan Stegman"),
+                List.of(),
+                List.of()
+        ));
+        Comics comics7 = comicsDao.save(new Comics(
+                "thor_2018_1",
+                "Thor (2018) #1",
+                "JASON AARON & MIKE DEL MUNDO TAKE THE PRINCE OF ASGARD IN A WHOLE NEW DIRECTION! Thor Odinson has regained his mantle – and with it, a wild new world of trouble on his mighty hands! The artifacts of Asgard have been scattered across the earth, and to reclaim them, Thor will have to face some ugly truths. Like the production cost of hundreds of new hammers! And the Thunder God is going to need every last one of them if he’s going to stop the unstoppable Juggernaut. Jason Aaron takes the Prince of Asgard in a whole new direction with YOUNG GUN artist Mike Del Mundo joining him at the helm! And don’t miss the latest chapter of the King Thor saga with acclaimed BLACK BOLT artist Christian Ward, as the Thor of the far future encounters an old friend who’s undergone some startling changes.",
+                LocalDate.of(2018,8,13),
+                "standart_comics.png",
+                List.of("Jason Aaron"),
+                List.of("Christian Ward"),
+                List.of("Mike Del Mundo"),
+                List.of()
         ));
     }
 
