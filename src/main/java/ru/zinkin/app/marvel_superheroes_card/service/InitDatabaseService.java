@@ -8,6 +8,7 @@ import ru.zinkin.app.marvel_superheroes_card.model.pojo.Characters;
 import ru.zinkin.app.marvel_superheroes_card.model.pojo.Comics;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,44 +25,92 @@ public class InitDatabaseService {
     }
 
     public void initDatabaseMethod(){
-        Characters characters = characterDao.save(new Characters("id",
-                "a_name",
-                70,
-                970,
-                List.of("id_eyes"),
-                List.of("id_hire"),
-                "id_universe",
-                List.of(),
-                "id",
-                "id",
-                List.of("id_man"),
-                "main.png"));
-        Characters characters2 = characterDao.save(new Characters("id2",
-                "b_name",
-                70,
-                970,
-                List.of("id_eyes2"),
-                List.of("id_hire2"),
-                "id_universe2",
-                List.of(),
-                "id",
-                "id",
-                List.of("id_man2"),
+        Characters characters = characterDao.save(new Characters("abraxas",
+                "ABRAXAS",
+                null,
+                null,
+                List.of("Blue"),
+                List.of("Black with gray streaks"),
+                "Marvel Universe",
+                List.of("unrevealed"),
+                "No formal education",
+                "Within Eternity",
+                List.of("Eternity (\"Father\")"),
+                "standart_character.png"));
+        Characters characters2 = characterDao.save(new Characters("aberration",
+                "ABERRATION",
+                null,
+                null,
+                List.of("Green (as Philips)","Green (as Aberration)"),
+                List.of("Brown (as Philips)","Green (as Aberration)"),
+                "Marvel Universe",
+                List.of("None"),
+                "Unrevealed, but Aberration received military training",
+                "Unrevealed",
+                List.of("Unrevealed"),
                 "main2.png"));
-        Characters characters3 = characterDao.save(new Characters("id3",
-                "c_name",
-                72,
-                953,
-                List.of("blue", "green"),
-                List.of("yellow", "blue"),
-                "marvel_universe2",
-                List.of("Леха","Лёха"),
+        Characters characters3 = characterDao.save(new Characters("spider-man-peter-parker",
+                "SPIDER-MAN",
+                67,
+                167,
+                List.of("brown", "None"),
+                List.of("brown", "None"),
+                "Empire State",
+                List.of("Spider-Man(Peter Parker)"),
                 "high school",
-                "id3",
-                List.of("id_man55"),
+                "20 Ingram Street, Forest Hills NY",
+                List.of("Mary Parker(Grandmother)",""),
+                "main6.png"));
+        Characters characters4 = characterDao.save(new Characters("spider-man-miles-morales",
+                "SPIDER-MAN",
+                67,
+                167,
+                List.of("brown"),
+                List.of("brown"),
+                "Empire State",
+                List.of("Spider-Man(MilesMorales)"),
+                "high school",
+                "20 Ingram Street, Forest Hills NY",
+                List.of("Mary Parker(Grandmother)"),
+                "main6.png"));
+        Characters characters5 = characterDao.save(new Characters("spider-man-miles-morales",
+                "SPIDER-MAN",
+                67,
+                167,
+                List.of("brown"),
+                List.of("brown"),
+                "Empire State",
+                List.of("Spider-Man(MilesMorales)"),
+                "high school",
+                "20 Ingram Street, Forest Hills NY",
+                List.of("Mary Parker(Grandmother)"),
+                "main6.png"));
+        Characters characters6 = characterDao.save(new Characters("spider-man-miles-morales",
+                "VENOM",
+                75,
+                245,
+                List.of("brown"),
+                List.of("Brown (shaves head)"),
+                "Marvel Universe",
+                List.of("Spider-Man","formerly Scorpion"),
+                "High school graduate",
+                "Yonkers, New York",
+                List.of("None"),
+                "main6.png"));
+        Characters characters7 = characterDao.save(new Characters("spider-man-miles-morales",
+                "TOR Odinson",
+                76,
+                639,
+                List.of("Blue"),
+                List.of("Blond"),
+                "Marvel Universe",
+                List.of("God of Thunder","Goldilocks"),
+                "None",
+                "Asgard",
+                List.of("Loki","Zevs"),
                 "main6.png"));
 
-        Comics comics = comicsDao.save(new Comics(
+        comicsDao.save(new Comics(
                 "immortal_hulk_2018_1",
                 "Immortal Hulk (2018) #1",
                 "The FIRST issue of the Immortal Hulk! Al Ewing and Joe Bennett's critically-acclaimed and best-selling Immortal Hulk series kicks off here with THE RETURN OF BRUCE BANNER! You know Bruce Banner. He's quiet, calm, never complains. He's a man who believes he can use the darkest elements of his personality to do good in the world. If someone were to shoot him in the head...all he'd do is die. But the horror lives deeper. A horror that refuses to die. When night falls something other than the man gets up again. The horror is the Immortal Hulk.",
@@ -69,10 +118,10 @@ public class InitDatabaseService {
                 "standart_comics.png",
                 List.of("Al Ewing"),
                 List.of("Joe Bennett"),
-                List.of(),
-                List.of()
+                new ArrayList<>(),
+                new ArrayList<>()
         ));
-        Comics comics2 =comicsDao.save(new Comics(
+        comicsDao.save(new Comics(
                 "marvels_spider-man_2_2023_1",
                 "Marvel's Spider-Man 2 (2023) #1",
                 "In the lead up to events in Marvel's Spider-Man 2, Peter and Miles team up to face an all-new threat!",
@@ -81,7 +130,7 @@ public class InitDatabaseService {
                 List.of("Christos Gage"),
                 List.of("Todd Nauck", "Ig Guara"),
                 List.of("Todd Nauck"),
-                List.of()
+                new ArrayList<>()
         ));
         Comics comics3 = comicsDao.save(new Comics(
                 "911_20th_anniversary_tribute_the_four_fives_2021_1",
@@ -91,8 +140,8 @@ public class InitDatabaseService {
                 "standart_comics.png",
                 List.of("Joe Quesada"),
                 List.of("John Romita"),
-                List.of(),
-                List.of()
+                new ArrayList<>(),
+                new ArrayList<>()
         ));
         Comics comics4= comicsDao.save(new Comics(
                 "the_vitals_true_ems_stories_2021",
@@ -102,8 +151,8 @@ public class InitDatabaseService {
                 "standart_comics.png",
                 List.of("Sean Ryan"),
                 List.of("Ramón F. Bachs"," Ray-Anthony Height","J.L. Giles","Ze Carlos"),
-                List.of(),
-                List.of()
+                new ArrayList<>(),
+                new ArrayList<>()
         ));
         Comics comics5 = comicsDao.save(new Comics(
                 "spider-man_2022_11",
@@ -114,7 +163,7 @@ public class InitDatabaseService {
                 List.of("Dan Slott"),
                 List.of("Luciano Vecchio"),
                 List.of("Mark Bagley"),
-                List.of()
+                new ArrayList<>()
         ));
         Comics comics6 = comicsDao.save(new Comics(
                 "venom_2018_1",
@@ -124,8 +173,8 @@ public class InitDatabaseService {
                 "standart_comics.png",
                 List.of("Donny Cates"),
                 List.of("Ryan Stegman"),
-                List.of(),
-                List.of()
+                new ArrayList<>(),
+                new ArrayList<>()
         ));
         Comics comics7 = comicsDao.save(new Comics(
                 "thor_2018_1",
@@ -136,7 +185,7 @@ public class InitDatabaseService {
                 List.of("Jason Aaron"),
                 List.of("Christian Ward"),
                 List.of("Mike Del Mundo"),
-                List.of()
+                new ArrayList<>()
         ));
     }
 

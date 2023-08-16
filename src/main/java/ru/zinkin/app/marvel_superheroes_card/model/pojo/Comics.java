@@ -20,10 +20,10 @@ import java.util.List;
 public class Comics {
 
     @Id
-    @Column(name = "id",length = 30,nullable = false)
+    @Column(name = "id",nullable = false,updatable = false,length = 200)
     @NotNull
     private String id;
-    @Column(name = "name",nullable = false,length = 50,updatable = false)
+    @Column(name = "name",nullable = false,updatable = false,length = 200)
     @NotNull
     private String name;
     @Column(name = "description",nullable = false)
