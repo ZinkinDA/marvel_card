@@ -106,7 +106,7 @@ public class InitDatabaseService {
                 List.of()
         ));
         Comics comics5 = comicsDao.save(new Comics(
-                "109961",
+                "spider-man_2022_11",
                 "Spider-Man (2022) #11",
                 "(RE)INTRODUCING…SPIDER-BOY! The battle to save the Spider-Verse may be over, but spinning out of the restored Web of Life and Destiny returns the spectacular SPIDER-BOY, Peter Parker's stupendous sidekick! Wait, that can't be right - who IS this Spider-Boy, and what is his connection to the Amazing Spider-Man?!",
                 LocalDate.of(2023,4,16),
