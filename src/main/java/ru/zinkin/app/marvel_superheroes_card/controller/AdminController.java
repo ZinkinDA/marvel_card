@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/v1/private/admin")
@@ -89,7 +91,13 @@ public class AdminController {
                 boolean a = file.mkdir();
             }
             String filename = String.join(".",UUID.randomUUID().toString(),multipartFile.getOriginalFilename());
-            multipartFile.transferTo(new File(String.join("\\",path,filename)));
+            /**
+             *  Метод File.separator ставит знак разделитель "\" потому что System относится к windows , а в докере надо "/"
+             *  multipartFile.transferTo(new File(String.join(File.separator,path,filename))); - не работает!
+             */
+
+            Logger.getGlobal().log(Level.WARNING,filename);
+            multipartFile.transferTo(new File(path + filename));
             comics.setImages(filename);
         }
         comicsService.editComics(comics);
@@ -119,7 +127,7 @@ public class AdminController {
                 boolean a = dir.mkdir();
             }
             String filename = String.join(".",UUID.randomUUID().toString(),multipartFile.getOriginalFilename());
-            multipartFile.transferTo(new File(String.join("\\",path,filename)));
+            multipartFile.transferTo(new File(path + filename));
             character.setImg(filename);
             characterService.editCharacter(id,character);
         }
