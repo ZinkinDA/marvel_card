@@ -103,7 +103,7 @@ public class ComicsService implements AbstractComicsService {
     @Override
     public boolean editComics(Comics comment){
         Comics ecomics = null;
-        Comics comics = null;
+        Comics comics;
 
         if(comicsDao.existsById(comment.getId())){
             comics = getComicsById(comment.getId()).get();

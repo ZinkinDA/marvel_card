@@ -48,28 +48,25 @@ public class AdminController {
     @ApiOperation(value = "Сохранение комикса",tags = {"Сохранение комикса"})
     @ApiResponses(value = {
             @ApiResponse(code = 201,message = "Комикс создан."),
-            @ApiResponse(code = 400 , message = "Не правильный ввод данных или персонаж уже существует.")
+            @ApiResponse(code = 400 , message = "Не правильный ввод данных или персонаж уже существует."),
+            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных")
     })
     @PostMapping("/comics/save")
     public ResponseEntity<?> saveComics(@RequestBody @NotNull @Valid RequestComicsDto requestComicsDto){
         logger.log(Level.INFO,"Вызов метода saveComics");
-//        try {
-            if(comicsService.existById(requestComicsDto.getId())){
-                return ResponseEntity.badRequest().body("Комикс с таким id уже существует.");
-            }
-            if (!comicsService.saveComicsDto(requestComicsDto)) {
-                return ResponseEntity.status(400).body("Проверьте правильность ввода данных.");
-            }
-//        } catch (RuntimeException e){
-//            return  ResponseEntity.status(400).body(String.format("Не удалось сохранить комикс.\nПроверьте правильность ввода данных.\n message {%s}",e.getMessage()));
-//        }
+        if(comicsService.existById(requestComicsDto.getId())){
+            return ResponseEntity.badRequest().body("Комикс с таким id уже существует.");
+        }
+        if (!comicsService.saveComicsDto(requestComicsDto)) {
+            return ResponseEntity.status(400).body("Проверьте правильность ввода данных.");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Комикс с именем %s создан. \n http://localhost:8091/v1/public/comics/%s",requestComicsDto.getName(),requestComicsDto.getId()));
     }
 
     @ApiOperation(value = "Изменение комикса",tags = {"Изменение комикса"})
     @ApiResponses(value = {
             @ApiResponse(code = 201,message = "Комикс изменен"),
-            @ApiResponse(code = 400,message = "Проверьте правильность uri"),
+            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных"),
             @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/comics/edit")
@@ -78,13 +75,13 @@ public class AdminController {
         if (comicsService.editComics(comics)) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Изменяемого пользователя не существует.");
     }
 
     @ApiOperation(value = "Изменение фото для комикса",tags = {"Загрузка фото для комикса","Изменение фотографии комикса по ID"})
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "Фото загружено и изменено"),
-            @ApiResponse(code = 400,message = "Не верный тип файла"),
+            @ApiResponse(code = 401,message = "Не верный тип файла"),
             @ApiResponse(code = 404,message = "Комикс не найден")
     })
     @PostMapping("/comics/upload/{comicsId}")
@@ -97,7 +94,7 @@ public class AdminController {
 
         if(multipartFile != null){
             if(!Objects.requireNonNull(multipartFile.getContentType()).contains("image")){
-                return ResponseEntity.status(400).body("Не верный тип файла!");
+                return ResponseEntity.status(401).body("Не верный тип файла!");
             }
             File file = new File(path);
             if(!file.exists()){
@@ -114,7 +111,7 @@ public class AdminController {
     @ApiOperation(value = "Изменение фото для героя",tags = {"Сохранение комикса"})
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "Фото загружено и изменено"),
-            @ApiResponse(code = 400,message = "Не верный тип файла"),
+            @ApiResponse(code = 401,message = "Не верный тип файла"),
             @ApiResponse(code = 404,message = "Комикс не найден")
     })
     @PostMapping("/character/upload/{characterId}")
@@ -146,7 +143,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(code = 201,message = "Герой сохранен"),
             @ApiResponse(code = 400,message = "Такой ID уже существует"),
-            @ApiResponse(code = 400,message = "Поле ID не может быть пустым."),
+            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных")
     })
     @PostMapping("/character/save")
     public ResponseEntity<?> saveCharacter(@RequestBody @NotNull @Valid RequestCharacterDto characterDto){
@@ -187,20 +184,16 @@ public class AdminController {
     @ApiOperation(value = "Изменение персонажа",tags = {"Изменение персонажа"})
     @ApiResponses(value = {
             @ApiResponse(code = 201,message = "Персонаж изменен"),
-            @ApiResponse(code = 400,message = "Проверьте правильность uri"),
+            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных"),
             @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/character/edit")
     public ResponseEntity<?> editCharacter(@RequestBody @Valid Characters comics){
         logger.log(Level.INFO,"Вызов метода editCharacter");
-        try {
-            if(characterService.editCharacter(comics)){
-                return ResponseEntity.status(HttpStatus.CREATED).body("Персонаж изменен");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
-        } catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(String.format("Не удалось изменить персонажа \n message = { %s }",e.getMessage()));
+        if(characterService.editCharacter(comics)){
+            return ResponseEntity.status(HttpStatus.CREATED).body("Персонаж изменен");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
     }
 
 

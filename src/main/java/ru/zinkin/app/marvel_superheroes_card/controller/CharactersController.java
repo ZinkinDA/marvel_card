@@ -49,7 +49,7 @@ public class CharactersController {
             @ApiResponse(code = 404,message = "Персонаж не найден!")
     })
     @GetMapping("/{characterId}")
-    public ResponseEntity<?> getCharacterById(@PathVariable("characterId") @NotNull() @NotEmpty()
+    public ResponseEntity<?> getCharacterById(@PathVariable("characterId") @NotNull @NotEmpty
                                                   String id){
         Optional<Characters> characters = characterService.findById(id);
         if(characters.isPresent()){
