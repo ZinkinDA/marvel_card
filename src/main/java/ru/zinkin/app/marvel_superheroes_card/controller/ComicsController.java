@@ -72,15 +72,15 @@ public class ComicsController {
         if(!comicsService.existById(comicsId)){
             return ResponseEntity.status(404).body("Комикс не найден");
         }
-        Map<String,Object> claims = new HashMap<>();
-        if(cp != null) {
-            claims.put("currentPage",cp);
+        Map<String, Object> claims = new HashMap<>();
+        if (cp != null) {
+            claims.put("currentPage", cp);
         }
-        if(etp != null){
-            claims.put("elementToPage",etp);
+        if (etp != null) {
+            claims.put("elementToPage", etp);
         }
 
-        Page<Characters> page = comicsService.getCharacterByComicsId(comicsId,claims);
+        Page<Characters> page = comicsService.getCharacterByComicsId(comicsId, claims);
         return ResponseEntity.ok(page);
     }
 

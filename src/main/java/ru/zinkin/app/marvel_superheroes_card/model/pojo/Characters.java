@@ -3,9 +3,7 @@ package ru.zinkin.app.marvel_superheroes_card.model.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +20,8 @@ import java.util.List;
 public class Characters {
     @Id
     @NotNull(message = "ID не может быть равен null")
+    @NotEmpty(message = "ID не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     @Column(name = "id",updatable = false,length = 200)
     private String id;
     @NotNull(message = "DURABILITY не может быть равен null")
@@ -52,6 +52,8 @@ public class Characters {
 
     @Column(name = "name",updatable = false,length = 200)
     @NotNull(message = "name не может быть равен null")
+    @NotEmpty(message = "name не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String name;
     @Column(name = "height")
     private Integer height;

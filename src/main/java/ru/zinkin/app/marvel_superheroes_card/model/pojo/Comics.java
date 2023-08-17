@@ -3,6 +3,8 @@ package ru.zinkin.app.marvel_superheroes_card.model.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +24,15 @@ import java.util.List;
 public class Comics {
 
     @Id
-    @Column(name = "id",nullable = false,updatable = false,length = 200)
+    @Column(name = "id",nullable = false,updatable = false,unique = true,length = 200)
     @NotNull(message = "ID не может быть равен null")
+    @NotEmpty(message = "ID не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String id;
     @Column(name = "name",nullable = false,updatable = false,length = 200)
+    @NotEmpty(message = "name не может быть пустым")
     @NotNull(message = "name не может быть равен null")
+    @NotBlank(message = "ID не может быть пустым")
     private String name;
     @Column(name = "description",nullable = false,length = 2048)
     @NotNull(message = "description не может быть равен null")

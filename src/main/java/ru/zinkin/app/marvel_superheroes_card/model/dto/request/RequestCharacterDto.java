@@ -1,8 +1,6 @@
 package ru.zinkin.app.marvel_superheroes_card.model.dto.request;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,8 @@ import java.util.List;
 public class RequestCharacterDto {
 
     @NotNull(message = "ID не может быть равен null")
+    @NotEmpty(message = "ID не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String id;
     @NotNull(message = "DURABILITY не может быть равен null")
     @Min(value = 0,message = "DURABILITY не может быть меньше 0")
@@ -41,7 +41,9 @@ public class RequestCharacterDto {
     @Min(value = 0,message = "STRENGTH не может быть меньше 0")
     @Max(value = 10,message = "STRENGTH не может быть больше 10")
     private Byte STRENGTH;
-    @NotNull
+    @NotNull(message = "name не может быть равен null")
+    @NotEmpty(message = "ID не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String name;
     private Integer height;
     private Integer weight;

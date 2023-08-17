@@ -1,5 +1,6 @@
 package ru.zinkin.app.marvel_superheroes_card.model.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +16,12 @@ import java.util.List;
 public class RequestComicsDto {
 
     @NotNull(message = "ID не может быть равен null")
+    @NotBlank(message = "ID не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String id;
     @NotNull(message = "name не может быть равен null")
+    @NotBlank(message = "name не может быть пустым")
+    @NotBlank(message = "ID не может быть пустым")
     private String name;
     @NotNull(message = "description не может быть равен null")
     private String description;
