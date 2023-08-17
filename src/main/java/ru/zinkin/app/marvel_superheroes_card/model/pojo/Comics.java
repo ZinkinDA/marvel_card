@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comics")
@@ -75,5 +76,18 @@ public class Comics {
         this.writers = writers;
         this.pencilers = pencilers;
         this.cover_artist = cover_artist;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comics comics = (Comics) o;
+        return id.equals(comics.id) && name.equals(comics.name) && description.equals(comics.description) && published.equals(comics.published) && images.equals(comics.images) && Objects.equals(writers, comics.writers) && Objects.equals(pencilers, comics.pencilers) && Objects.equals(cover_artist, comics.cover_artist) && Objects.equals(characters, comics.characters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, published, images, writers, pencilers, cover_artist, characters);
     }
 }

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -141,5 +142,18 @@ public class Characters {
         this.place_of_origin = place_of_origin;
         this.known_relatives = known_relatives;
         this.img = img;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Characters that = (Characters) o;
+        return id.equals(that.id) && DURABILITY.equals(that.DURABILITY) && ENERGY.equals(that.ENERGY) && FIGHTING_SKILLS.equals(that.FIGHTING_SKILLS) && INTELLIGENCE.equals(that.INTELLIGENCE) && SPEED.equals(that.SPEED) && STRENGTH.equals(that.STRENGTH) && name.equals(that.name) && Objects.equals(height, that.height) && Objects.equals(weight, that.weight) && Objects.equals(eyes, that.eyes) && Objects.equals(hair, that.hair) && Objects.equals(universe, that.universe) && Objects.equals(other_aliases, that.other_aliases) && Objects.equals(education, that.education) && Objects.equals(place_of_origin, that.place_of_origin) && Objects.equals(known_relatives, that.known_relatives) && Objects.equals(img, that.img) && Objects.equals(comics, that.comics);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, DURABILITY, ENERGY, FIGHTING_SKILLS, INTELLIGENCE, SPEED, STRENGTH, name, height, weight, eyes, hair, universe, other_aliases, education, place_of_origin, known_relatives, img, comics);
     }
 }
