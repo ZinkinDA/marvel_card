@@ -1,5 +1,7 @@
 package ru.zinkin.app.marvel_superheroes_card.model.dto.request;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,19 +14,32 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestCharacterDto {
 
-    @NotNull
+    @NotNull(message = "ID не может быть равен null")
     private String id;
-    @NotNull
+    @NotNull(message = "DURABILITY не может быть равен null")
+    @Min(value = 0,message = "DURABILITY не может быть меньше 0")
+    @Max(value = 10,message = "DURABILITY не может быть больше 10")
     private Byte DURABILITY;
-    @NotNull
+    @NotNull(message = "ENERGY не может быть равен null")
+    @Min(value = 0,message = "ENERGY не может быть меньше null")
+    @Max(value = 10,message = "ENERGY не может быть больше 10")
     private Byte ENERGY;
-    @NotNull
+    @NotNull(message = "FIGHTING_SKILLS не может быть равен null")
+    @Min(value = 0,message = "FIGHTING_SKILLS не может быть меньше 0")
+    @Max(value = 10,message = "FIGHTING_SKILLS не может быть больше 10")
     private Byte FIGHTING_SKILLS;
-    @NotNull
+    @NotNull(message = "INTELLIGENCE не может быть равен null")
+    @Min(value = 0,message = "INTELLIGENCE не может быть меньше 0")
+    @Max(value = 10,message = "INTELLIGENCE не может быть больше 10")
     private Byte INTELLIGENCE;
-    @NotNull
+    @NotNull(message = "SPEED не может быть равен null")
+    @Min(value = 0,message = "SPEED не может быть меньше 0")
+    @Max(value = 10,message = "SPEED не может быть больше 10")
     private Byte SPEED;
-    @NotNull
+
+    @NotNull(message = "STRENGTH не может быть равен null")
+    @Min(value = 0,message = "STRENGTH не может быть меньше 0")
+    @Max(value = 10,message = "STRENGTH не может быть больше 10")
     private Byte STRENGTH;
     @NotNull
     private String name;

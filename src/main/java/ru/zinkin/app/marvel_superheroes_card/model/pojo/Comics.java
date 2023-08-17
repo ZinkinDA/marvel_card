@@ -2,6 +2,7 @@ package ru.zinkin.app.marvel_superheroes_card.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,35 +18,34 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Valid
 public class Comics {
 
     @Id
     @Column(name = "id",nullable = false,updatable = false,length = 200)
-    @NotNull
+    @NotNull(message = "ID не может быть равен null")
     private String id;
     @Column(name = "name",nullable = false,updatable = false,length = 200)
-    @NotNull
+    @NotNull(message = "name не может быть равен null")
     private String name;
     @Column(name = "description",nullable = false,length = 2048)
-    @NotNull
+    @NotNull(message = "description не может быть равен null")
     private String description;
     @Column(name = "published",nullable = false,updatable = false)
-    @NotNull
+    @NotNull(message = "published не может быть равен null")
     private LocalDate published;
     @Column(name = "img")
+    @NotNull
     private String images;
 
     @Column(name = "writers")
     @ElementCollection
-    @NotNull
     private List<String> writers;
     @Column(name = "pencilers")
     @ElementCollection
-    @NotNull
     private List<String> pencilers;
     @Column(name = "cover_artist")
     @ElementCollection
-    @NotNull
     private List<String> cover_artist;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "comics_characters",

@@ -4,6 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +51,7 @@ public class ComicsController {
             @ApiResponse(code = 404,message = "Комикс не найден!")
     })
     @GetMapping("/{comicsId}")
-    public ResponseEntity<?> getComicsById(@PathVariable("comicsId") String id){
+    public ResponseEntity<?> getComicsById(@PathVariable("comicsId") @NotNull @NotEmpty String id){
         if(!comicsService.existById(id)){
             return ResponseEntity.status(404).body("Комикс не найдены!");
         }
@@ -63,7 +66,7 @@ public class ComicsController {
             @ApiResponse(code = 404,message = "Комикс не найдены!")
     })
     @GetMapping("/{comicsId}/characters")
-    public ResponseEntity<?> getCharactersByComicsId(@PathVariable("comicsId") String comicsId,
+    public ResponseEntity<?> getCharactersByComicsId(@PathVariable("comicsId") @NotNull @NotEmpty String comicsId,
                                                      @RequestParam(value = "currentPage",required = false) Integer cp,
                                                      @RequestParam(value = "elementToPage",required = false) Integer etp){
         if(!comicsService.existById(comicsId)){

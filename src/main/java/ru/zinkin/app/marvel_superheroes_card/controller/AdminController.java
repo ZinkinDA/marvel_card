@@ -5,11 +5,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.zinkin.app.marvel_superheroes_card.model.dto.request.RequestCharacterDto;
@@ -27,6 +32,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Validated
 @RestController
 @RequestMapping("/v1/private/admin")
 @RequiredArgsConstructor
@@ -45,18 +51,18 @@ public class AdminController {
             @ApiResponse(code = 400 , message = "Не правильный ввод данных или персонаж уже существует.")
     })
     @PostMapping("/comics/save")
-    public ResponseEntity<?> saveComics(@RequestBody RequestComicsDto requestComicsDto){
+    public ResponseEntity<?> saveComics(@RequestBody @NotNull @Valid RequestComicsDto requestComicsDto){
         logger.log(Level.INFO,"Вызов метода saveComics");
-        try {
+//        try {
             if(comicsService.existById(requestComicsDto.getId())){
                 return ResponseEntity.badRequest().body("Комикс с таким id уже существует.");
             }
             if (!comicsService.saveComicsDto(requestComicsDto)) {
                 return ResponseEntity.status(400).body("Проверьте правильность ввода данных.");
             }
-        } catch (RuntimeException e){
-            return  ResponseEntity.status(400).body("Не удалось сохранить комикс.\nПроверьте правильность ввода данных.");
-        }
+//        } catch (RuntimeException e){
+//            return  ResponseEntity.status(400).body(String.format("Не удалось сохранить комикс.\nПроверьте правильность ввода данных.\n message {%s}",e.getMessage()));
+//        }
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Комикс с именем %s создан. \n http://localhost:8091/v1/public/comics/%s",requestComicsDto.getName(),requestComicsDto.getId()));
     }
 
@@ -67,16 +73,12 @@ public class AdminController {
             @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/comics/edit")
-    public ResponseEntity<?> editComics(@RequestBody Comics comics){
+    public ResponseEntity<?> editComics(@RequestBody @Valid Comics comics){
         logger.log(Level.INFO,"Вызов метода editComics");
-        try {
-            if (comicsService.editComics(comics)) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
-        } catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось изменить комикс");
+        if (comicsService.editComics(comics)) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
     }
 
     @ApiOperation(value = "Изменение фото для комикса",tags = {"Загрузка фото для комикса","Изменение фотографии комикса по ID"})
@@ -117,7 +119,7 @@ public class AdminController {
     })
     @PostMapping("/character/upload/{characterId}")
     public ResponseEntity<String> uploadPhotoForCharacter(@PathVariable("characterId") String id,
-                                                          @RequestPart("img") MultipartFile multipartFile) throws IOException {
+                                                          @RequestPart("img") @NotNull MultipartFile multipartFile) throws IOException {
         logger.log(Level.INFO,"Вызов метода uploadPhotoForCharacter");
         if(!characterService.existById(id)){
             return ResponseEntity.status(404).body("Персонаж не найден!");
@@ -147,21 +149,16 @@ public class AdminController {
             @ApiResponse(code = 400,message = "Поле ID не может быть пустым."),
     })
     @PostMapping("/character/save")
-    public ResponseEntity<?> saveCharacter(@RequestBody RequestCharacterDto characterDto){
+    public ResponseEntity<?> saveCharacter(@RequestBody @NotNull @Valid RequestCharacterDto characterDto){
         logger.log(Level.INFO,"Вызов метода saveCharacters");
-        try {
-            if(characterService.existById(characterDto.getId())){
-                return ResponseEntity.badRequest().body("Персонаж с таким id уже существует.");
-            }
-            if(characterService.saveDto(characterDto)){
-                return ResponseEntity.status(HttpStatus.CREATED).body((String.format("Пользователь с именем %s создан. \n http://localhost:8091/v1/public/characters/%s",characterDto.getName(),characterDto.getId())));
-            } else {
-                return ResponseEntity.badRequest().body("Поле ID не может быть пустым.");
-            }
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("Не удалось сохранить персонажа, проверьте правильность вводимый данных");
+        if(characterService.existById(characterDto.getId())){
+            return ResponseEntity.badRequest().body("Персонаж с таким id уже существует.");
         }
-
+        if(characterService.saveDto(characterDto)){
+            return ResponseEntity.status(HttpStatus.CREATED).body((String.format("Пользователь с именем %s создан. \n http://localhost:8091/v1/public/characters/%s",characterDto.getName(),characterDto.getId())));
+        } else {
+            return ResponseEntity.badRequest().body("Поле ID не может быть пустым.");
+        }
     }
 
     @ApiOperation(value = "Добавление персонажа комиксу",tags = {"Добавление комиксу героя по ID"})
@@ -171,8 +168,8 @@ public class AdminController {
             @ApiResponse(code = 404,message = "Комикс не найден")
     })
     @PutMapping("/comics/{comicsId}/add-hero")
-    public ResponseEntity<?> addCharacterToComics(@PathVariable("comicsId") String comicsId,
-                                                   @RequestBody String characterId){
+    public ResponseEntity<?> addCharacterToComics(@PathVariable("comicsId") @NotNull @NotEmpty String comicsId,
+                                                   @RequestBody @NotNull @NotEmpty String characterId){
         logger.log(Level.INFO,"Вызов метода addCharacterToComics");
         if(!characterService.existById(characterId)){
             return ResponseEntity.status(404).body("Персонаж не найден!");
@@ -194,7 +191,7 @@ public class AdminController {
             @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/character/edit")
-    public ResponseEntity<?> editCharacter(@RequestBody Characters comics){
+    public ResponseEntity<?> editCharacter(@RequestBody @Valid Characters comics){
         logger.log(Level.INFO,"Вызов метода editCharacter");
         try {
             if(characterService.editCharacter(comics)){
@@ -202,7 +199,7 @@ public class AdminController {
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
         } catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось изменить персонажа");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(String.format("Не удалось изменить персонажа \n message = { %s }",e.getMessage()));
         }
     }
 

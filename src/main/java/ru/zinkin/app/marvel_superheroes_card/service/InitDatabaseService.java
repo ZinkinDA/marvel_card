@@ -25,8 +25,7 @@ public class InitDatabaseService {
     }
 
     public void initDatabaseMethod() {
-        {
-            Characters characters = characterDao.save(new Characters("abraxas",
+            Characters abraxas = characterDao.save(new Characters("abraxas",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -44,7 +43,7 @@ public class InitDatabaseService {
                     "Within Eternity",
                     List.of("Eternity (\"Father\")"),
                     "standart_character.png"));
-            Characters characters2 = characterDao.save(new Characters("aberration",
+            Characters aberration = characterDao.save(new Characters("aberration",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -62,7 +61,7 @@ public class InitDatabaseService {
                     "Unrevealed",
                     List.of("Unrevealed"),
                     "standart_character.png"));
-            Characters characters3 = characterDao.save(new Characters("spider-man-peter-parker",
+            Characters spiderManPP = characterDao.save(new Characters("spider-man-peter-parker",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -80,7 +79,7 @@ public class InitDatabaseService {
                     "20 Ingram Street, Forest Hills NY",
                     List.of("Mary Parker(Grandmother)", ""),
                     "standart_character.png"));
-            Characters characters4 = characterDao.save(new Characters("spider-man-miles-morales",
+            Characters spiderManMM = characterDao.save(new Characters("spider-man-miles-morales",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -98,7 +97,7 @@ public class InitDatabaseService {
                     "20 Ingram Street, Forest Hills NY",
                     List.of("Mary Parker(Grandmother)"),
                     "standart_character.png"));
-            Characters characters6 = characterDao.save(new Characters("VENOM_MASTER",
+            Characters venom = characterDao.save(new Characters("VENOM",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -116,7 +115,7 @@ public class InitDatabaseService {
                     "Yonkers, New York",
                     List.of("None"),
                     "standart_character.png"));
-            Characters characters7 = characterDao.save(new Characters("TOR-Odinson",
+            Characters torOdinson = characterDao.save(new Characters("TOR-Odinson",
                     (byte) 4,
                     (byte) 5,
                     (byte) 6,
@@ -142,8 +141,77 @@ public class InitDatabaseService {
                     List.of("Gaea (mother)", "Frigga (adoptive mother)", "Odin Borson (father, deceased)", "Sigyn (sister-in-law)", "Solveig (sister-in-law, deceased)", " Loki (adoptive brother)", "Balder", "Vidar (half-brothers)", "Vili", " Ve (paternal uncles, deceased)", "Bor Burison (paternal grandfather, deceased)", "Bestia (paternal grandmother, presumed deceased)", "Buri (Tiwaz, great- grandfather)", "Bolthorn (great-grandfather", "presumed deceased)", " Jormungand (Midgard Serpent)", "Fenris Wolf (nephew)", "Hela (niece)", "large extended family via Gaea and others"),
                     "standart_character.png"));
 
-        }
+            Characters hulkBruceBanner = characterDao.save(new Characters("hulk-bruce-banner",
+                    (byte) 7,
+                    (byte) 5,
+                    (byte) 4,
+                    (byte) 6,
+                    (byte) 3,
+                    (byte) 7,
+                    "HULK",
+                    90,
+                    1150,
+                    List.of("Brown","Green"),
+                    List.of("Brown","Green"),
+                    "Marvel Universe",
+                    List.of("Роберт Брюс Баннер", "Разрушитель миров"," Зеленый Один","Око ярости"," Разрушитель миров"," Харканон"," Хаарг"," Некогда Дикий", "Двуумный,"," Капитан Вселенная", "Профессор", "Война", "Маэстро", "Джо Фиксит", "мистер Фиксит", "Уничтожитель", "Механо", "Брюс Барнс", "Брюс Смит", "Гленн Саммерс", "Росс Оппенгеймер", "Фред Поттсворт", "Боб Дэннер", "Брюс Росс", "Брюс Джонс", "Брюс Робертс", "мистер Берген"," Брюс Франклин", "Брюс Грин", "Брюс Бэнкрофт", "Брюс Бакстер", "Брюс Дэвидсон"," Дэвид Бэннон"," Роберт Бейкер"," Брюс Биксби", "Дэвид Баннер"," Дэвид Биксби"," Двурукий", "Зеленокожий"," мистер Грин", "Нефритовые челюсти", "Зеленый Голиаф", "Нефритовый Гигант"," Серый Голиаф", "Могучий Боб", "Анти-Халк", "Пятница", "Зеленый Голем", "Голем"),
+                    "Ph.D in nuclear physics and two other fields",
+                    "Dayton, Ohio",
+                    List.of("Rebecca Banner (mother, deceased)"," Brian Banner (father, deceased)", "Caiera (spouse, deceased)", "Elizabeth \"Betty\" Ross (spouse, deceased)"," Skaar (son)", "Jennifer Walters (She-Hulk, cousin)"," Elaine Banner Walters (aunt, deceased)", "Susan Elizabeth Banner (formerly Susan Drake, aunt, possibly deceased)", "William Morris Walters (uncle)"),
+                    "standart_character.png"));
+        Characters bladeEricBrooks = characterDao.save(new Characters("blade-eric-brooks",
+                (byte) 4,
+                (byte) 1,
+                (byte) 5,
+                (byte) 2,
+                (byte) 2,
+                (byte) 4 ,
+                "BLADE",
+                74,
+                215,
+                List.of("Brown"),
+                List.of("Black"),
+                "Marvel Universe",
+                List.of("Daywalker", "Subject AA1", "Switchblade", "Hannibal Francis", "\"Frank\" Blade"),
+                "PHigh-school equivalent",
+                "Soho, London, England",
+                List.of("Tara Cross (mother)", "Lucas Cross (father)","Possibly Zukajaa (Spawn via Cilla)"),
+                        "standart_character.png"));
+
         {
+            comicsDao.save(new Comics(
+                    "miles_morales_spider-man_2022_11",
+                    "Miles Morales: Spider-Man (2022) #11",
+                    "A BLADE BITES IN BROOKLYN! A sinister force has infiltrated SPIDER-MAN's new neighborhood. Thousands are at risk, and HIGHTAIL and the CAPE KILLERS already have Miles on the ropes. His only hope may lie in vampire hunter BLADE, who has business in Brooklyn. But Blade and Spidey may not exactly see eye to eye on the current predicament. One that Blade really wants to sink his teeth into!",
+                    LocalDate.of(2023, 10, 18),
+                    "standart_comics.png",
+                    List.of("Cody Ziglar"),
+                    List.of("Federico Vicentini"),
+                    List.of("Dike Ruan"),
+                    List.of(spiderManMM,bladeEricBrooks)
+            ));
+            comicsDao.save(new Comics(
+                    "miles_morales_spider-man_2022_10",
+                    "Miles Morales: Spider-Man (2022) #10",
+                    "They came from inner space! Explorer Arcturus Rann! Freedom-fighting princess Marionette! The armored warrior Acroyear! Fun-loving thief Bug! The robots Microton and Biotron! They are the greatest heroes of the Microverse! But after one thousand years in suspended animation, Rann has returned to a Homeworld vastly changed from the one he knew - and Mari's family was killed in the coup d'état that saw Baron Karza rise to power. Now, together with their allies, they begin their epic quest to free Homeworld from the tyrannical Karza's iron grip in the first chapter of an acclaimed comic-book space opera from the legendary creative pairing of Bill Mantlo and Michael Golden! It's one of the all-time great Marvel comic books, boldly re-presented in its original form, ads and all! Reprinting MICRONAUTS (1979) #1.",
+                    LocalDate.of(2023, 9, 13),
+                    "standart_comics.png",
+                    List.of("Cody Ziglar"),
+                    List.of("Federico Vicentini"),
+                    List.of("Dike Ruan"),
+                    List.of(spiderManMM)
+            ));
+            comicsDao.save(new Comics(
+                    "miles_morales_spider-man_2022_9",
+                    "Miles Morales: Spider-Man (2022) #9",
+                    "VS. HOBGOBLIN - TO THE DEATH! MILES MORALES, A.K.A. SPIDER-MAN's, battle against the HOBGOBLIN reaches a fever pitch, pushing Miles to his limits - AND BEYOND - awakening new powers that could save the day…or utterly consume and destroy the wall-crawler for good!",
+                    LocalDate.of(2023, 8, 9),
+                    "standart_comics.png",
+                    List.of("Cody Ziglar"),
+                    List.of("Federico Vicentini"),
+                    List.of("Dike Ruan"),
+                    List.of(spiderManMM)
+            ));
             comicsDao.save(new Comics(
                     "immortal_hulk_2018_1",
                     "Immortal Hulk (2018) #1",
@@ -152,8 +220,8 @@ public class InitDatabaseService {
                     "standart_comics.png",
                     List.of("Al Ewing"),
                     List.of("Joe Bennett"),
-                    new ArrayList<>(),
-                    new ArrayList<>()
+                    List.of(),
+                    List.of(hulkBruceBanner)
             ));
             comicsDao.save(new Comics(
                     "marvels_spider-man_2_2023_1",
@@ -164,7 +232,7 @@ public class InitDatabaseService {
                     List.of("Christos Gage"),
                     List.of("Todd Nauck", "Ig Guara"),
                     List.of("Todd Nauck"),
-                    new ArrayList<>()
+                    List.of(spiderManPP)
             ));
             comicsDao.save(new Comics(
                     "911_20th_anniversary_tribute_the_four_fives_2021_1",
@@ -174,8 +242,8 @@ public class InitDatabaseService {
                     "standart_comics.png",
                     List.of("Joe Quesada"),
                     List.of("John Romita"),
-                    new ArrayList<>(),
-                    new ArrayList<>()
+                    List.of(),
+                    List.of()
             ));
             comicsDao.save(new Comics(
                     "the_vitals_true_ems_stories_2021",
@@ -185,11 +253,11 @@ public class InitDatabaseService {
                     "standart_comics.png",
                     List.of("Sean Ryan"),
                     List.of("Ramón F. Bachs", " Ray-Anthony Height", "J.L. Giles", "Ze Carlos"),
-                    new ArrayList<>(),
-                    new ArrayList<>()
+                    List.of(),
+                    List.of()
             ));
             comicsDao.save(new Comics(
-                    "109961",
+                    "spider-man_2022_11",
                     "Spider-Man (2022) #11",
                     "(RE)INTRODUCING…SPIDER-BOY! The battle to save the Spider-Verse may be over, but spinning out of the restored Web of Life and Destiny returns the spectacular SPIDER-BOY, Peter Parker's stupendous sidekick! Wait, that can't be right - who IS this Spider-Boy, and what is his connection to the Amazing Spider-Man?!",
                     LocalDate.of(2023, 4, 16),
@@ -197,7 +265,7 @@ public class InitDatabaseService {
                     List.of("Dan Slott"),
                     List.of("Luciano Vecchio"),
                     List.of("Mark Bagley"),
-                    new ArrayList<>()
+                    List.of(spiderManMM,spiderManPP)
             ));
             comicsDao.save(new Comics(
                     "venom_2018_1",
@@ -207,8 +275,8 @@ public class InitDatabaseService {
                     "standart_comics.png",
                     List.of("Donny Cates"),
                     List.of("Ryan Stegman"),
-                    new ArrayList<>(),
-                    new ArrayList<>()
+                    List.of(),
+                    List.of(venom)
             ));
             comicsDao.save(new Comics(
                     "thor_2018_1",
@@ -219,7 +287,7 @@ public class InitDatabaseService {
                     List.of("Jason Aaron"),
                     List.of("Christian Ward"),
                     List.of("Mike Del Mundo"),
-                    new ArrayList<>()
+                    List.of(torOdinson)
             ));
         }
     }

@@ -27,8 +27,4 @@ class MarvelSuperheroesCardApplicationTests {
 
     void contextLoads() throws Exception {
     }
-
-
-
-
 }
