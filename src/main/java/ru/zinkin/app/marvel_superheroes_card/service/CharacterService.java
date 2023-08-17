@@ -15,8 +15,6 @@ import ru.zinkin.app.marvel_superheroes_card.service.abstracts.AbstractCharacter
 import ru.zinkin.app.marvel_superheroes_card.util.CharactersConverter;
 import ru.zinkin.app.marvel_superheroes_card.util.abstracts.ConverterUtil;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -122,6 +120,26 @@ public class CharacterService implements AbstractCharacterService{
             characterDao.save(characters);
             return true;
         }
+    }
+    @Override
+    public boolean editCharacter(Characters comment){
+        Characters characters = null;
+        Characters comics = null;
+
+        if(characterDao.existsById(comment.getId())){
+            comics = findById(comment.getId()).get();
+            characters = comment;
+            characters.setId(comics.getId());
+            characters.setName(comics.getName());
+            characters.setImg(comics.getImg());
+            String[] strComics = characters.getImg().split("/");
+            if(strComics.length > 1){
+                characters.setImg(strComics[strComics.length-1]);
+            }
+            characters = characterDao.save(characters);
+        }
+        comicsDao.flush();
+        return characters != null;
     }
 
 

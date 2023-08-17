@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -46,11 +48,14 @@ public class AdminController {
     public ResponseEntity<?> saveComics(@RequestBody RequestComicsDto requestComicsDto){
         logger.log(Level.INFO,"Вызов метода saveComics");
         try {
-            if(!comicsService.saveComicsDto(requestComicsDto)){
+            if(comicsService.existById(requestComicsDto.getId())){
+                return ResponseEntity.badRequest().body("Комикс с таким id уже существует.");
+            }
+            if (!comicsService.saveComicsDto(requestComicsDto)) {
                 return ResponseEntity.status(400).body("Проверьте правильность ввода данных.");
             }
         } catch (RuntimeException e){
-            return  ResponseEntity.status(400).body(e.getMessage());
+            return  ResponseEntity.status(400).body("Не удалось сохранить комикс.\nПроверьте правильность ввода данных.");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Комикс с именем %s создан. \n http://localhost:8091/v1/public/comics/%s",requestComicsDto.getName(),requestComicsDto.getId()));
     }
@@ -64,10 +69,14 @@ public class AdminController {
     @PutMapping("/comics/edit")
     public ResponseEntity<?> editComics(@RequestBody Comics comics){
         logger.log(Level.INFO,"Вызов метода editComics");
-        if(comicsService.editComics(comics)){
-            return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
+        try {
+            if (comicsService.editComics(comics)) {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Комикс изменен");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось изменить комикс");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
     }
 
     @ApiOperation(value = "Изменение фото для комикса",tags = {"Загрузка фото для комикса","Изменение фотографии комикса по ID"})
@@ -141,13 +150,16 @@ public class AdminController {
     public ResponseEntity<?> saveCharacter(@RequestBody RequestCharacterDto characterDto){
         logger.log(Level.INFO,"Вызов метода saveCharacters");
         try {
+            if(characterService.existById(characterDto.getId())){
+                return ResponseEntity.badRequest().body("Персонаж с таким id уже существует.");
+            }
             if(characterService.saveDto(characterDto)){
                 return ResponseEntity.status(HttpStatus.CREATED).body((String.format("Пользователь с именем %s создан. \n http://localhost:8091/v1/public/characters/%s",characterDto.getName(),characterDto.getId())));
             } else {
                 return ResponseEntity.badRequest().body("Поле ID не может быть пустым.");
             }
         } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("Такой ID уже существует");
+            return ResponseEntity.badRequest().body("Не удалось сохранить персонажа, проверьте правильность вводимый данных");
         }
 
     }
@@ -173,6 +185,25 @@ public class AdminController {
         characters.add(characterService.findById(characterId).get());
         comicsService.editComics(comics);
         return ResponseEntity.status(200).body("Персонаж добавлен к комиксу");
+    }
+
+    @ApiOperation(value = "Изменение персонажа",tags = {"Изменение персонажа"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 201,message = "Персонаж изменен"),
+            @ApiResponse(code = 400,message = "Проверьте правильность uri"),
+            @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
+    })
+    @PutMapping("/character/edit")
+    public ResponseEntity<?> editCharacter(@RequestBody Characters comics){
+        logger.log(Level.INFO,"Вызов метода editCharacter");
+        try {
+            if(characterService.editCharacter(comics)){
+                return ResponseEntity.status(HttpStatus.CREATED).body("Персонаж изменен");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Проверьте правильность uri или изменяемого пользователя не существует.");
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось изменить персонажа");
+        }
     }
 
 

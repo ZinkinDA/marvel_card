@@ -1,5 +1,6 @@
 package ru.zinkin.app.marvel_superheroes_card.model.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,21 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestCharacterDto {
 
-    @NonNull
+    @NotNull
     private String id;
-    @NonNull
+    @NotNull
+    private Byte DURABILITY;
+    @NotNull
+    private Byte ENERGY;
+    @NotNull
+    private Byte FIGHTING_SKILLS;
+    @NotNull
+    private Byte INTELLIGENCE;
+    @NotNull
+    private Byte SPEED;
+    @NotNull
+    private Byte STRENGTH;
+    @NotNull
     private String name;
     private Integer height;
     private Integer weight;

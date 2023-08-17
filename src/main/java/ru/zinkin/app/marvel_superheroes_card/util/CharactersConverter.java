@@ -14,6 +14,12 @@ public class CharactersConverter implements ConverterUtil<Characters,RequestChar
 
         return Characters.builder()
                 .id(characterDto.getId())
+                .DURABILITY(characterDto.getDURABILITY())
+                .ENERGY(characterDto.getENERGY())
+                .FIGHTING_SKILLS(characterDto.getFIGHTING_SKILLS())
+                .INTELLIGENCE(characterDto.getINTELLIGENCE())
+                .STRENGTH(characterDto.getSTRENGTH())
+                .SPEED(characterDto.getSPEED())
                 .name(characterDto.getName())
                 .weight(characterDto.getWeight())
                 .height(characterDto.getHeight())

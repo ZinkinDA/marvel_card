@@ -26,7 +26,7 @@ public class Comics {
     @Column(name = "name",nullable = false,updatable = false,length = 200)
     @NotNull
     private String name;
-    @Column(name = "description",nullable = false)
+    @Column(name = "description",nullable = false,length = 2048)
     @NotNull
     private String description;
     @Column(name = "published",nullable = false,updatable = false)

@@ -19,4 +19,6 @@ public interface AbstractCharacterService extends AbstractCharacterDtoService {
     boolean save(Characters character);
 
     boolean editCharacter(String id, Characters characters);
+
+    boolean editCharacter(Characters comment);
 }

@@ -1,13 +1,19 @@
 create table characters (
-            height integer,
-            weight integer,
-            education varchar(255),
-            id varchar(200) not null,
-            images varchar(255),
-            name varchar(200) not null,
-            place_of_origin varchar(255),
-            universe varchar(200),
-            primary key (id)
+                  durability smallint,
+                  energy smallint,
+                  fighting_skills smallint,
+                  height integer,
+                  intelligence smallint,
+                  speed smallint,
+                  strength smallint,
+                  weight integer,
+                  id varchar(200) not null unique ,
+                  name varchar(200) not null,
+                  education varchar(255),
+                  images varchar(255),
+                  place_of_origin varchar(255),
+                  universe varchar(255),
+                  primary key (id)
 );
 create table characters_eyes (
             characters_id varchar(200) not null,
@@ -27,7 +33,7 @@ create table characters_other_aliases (
 );
 create table comics (
             published date not null,
-            id varchar(200) not null,
+            id varchar(200) not null unique ,
             name varchar(200) not null,
             description varchar(2048) not null,
             img varchar(255),
