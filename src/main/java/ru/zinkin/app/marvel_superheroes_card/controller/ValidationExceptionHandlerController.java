@@ -4,6 +4,7 @@ package ru.zinkin.app.marvel_superheroes_card.controller;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +42,13 @@ public class ValidationExceptionHandlerController {
                         exc.getDefaultMessage()
                 )).toList();
         return new ValidErrorResponse(violationList);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String validFormatFieldException(HttpMessageNotReadableException e){
+        return "Проверьте json поля на соответствие типу.";
     }
 
     @ResponseBody

@@ -12,7 +12,6 @@ import java.util.List;
 public class RequestCharacterDto {
 
     @NotNull(message = "ID не может быть равен null")
-    @NotEmpty(message = "ID не может быть пустым")
     @NotBlank(message = "ID не может быть пустым")
     private String id;
     @NotNull(message = "DURABILITY не может быть равен null")
@@ -41,7 +40,6 @@ public class RequestCharacterDto {
     @Max(value = 10,message = "STRENGTH не может быть больше 10")
     private Byte STRENGTH;
     @NotNull(message = "name не может быть равен null")
-    @NotEmpty(message = "ID не может быть пустым")
     @NotBlank(message = "ID не может быть пустым")
     private String name;
     private Integer height;

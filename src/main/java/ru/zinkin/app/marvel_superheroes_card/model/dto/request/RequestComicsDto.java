@@ -16,10 +16,8 @@ public class RequestComicsDto {
 
     @NotNull(message = "ID не может быть равен null")
     @NotBlank(message = "ID не может быть пустым")
-    @NotBlank(message = "ID не может быть пустым")
     private String id;
     @NotNull(message = "name не может быть равен null")
-    @NotBlank(message = "name не может быть пустым")
     @NotBlank(message = "ID не может быть пустым")
     private String name;
     @NotNull(message = "description не может быть равен null")
