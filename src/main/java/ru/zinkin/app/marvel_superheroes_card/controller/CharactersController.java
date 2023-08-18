@@ -1,10 +1,9 @@
 package ru.zinkin.app.marvel_superheroes_card.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import jakarta.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +21,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/v1/public/characters")
 @RequiredArgsConstructor
-@Api(value = "Работа с персонажами", tags = {"Characters"})
+@Tag(name = "Character controller",description = "Получение информации о персонажах. (GET)")
 public class CharactersController {
     private final AbstractCharacterService characterService;
 
-    @ApiOperation(value = "Получение персонажей с пагинацией и сортировкой по имени")
+    @Operation(summary = "Получение персонажей",description = "Получение персонажей с пагинацией и сортировкой по имени")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Список персонажей"),
+            @ApiResponse(responseCode = "200",description = "Список персонажей"),
     })
     @GetMapping
     public ResponseEntity<?> getCharacters(@RequestParam(value = "currentPage",required = false) Integer currentPage,
@@ -43,10 +42,11 @@ public class CharactersController {
         return ResponseEntity.ok().body(characterService.getAll(claims));
     }
 
-    @ApiOperation(value = "Получение персонажа по Id")
+    @Operation(summary = "Получение персонажа по Id")
+
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Персонаж по id"),
-            @ApiResponse(code = 404,message = "Персонаж не найден!")
+            @ApiResponse(responseCode = "200",description = "Персонаж по id"),
+            @ApiResponse(responseCode = "404",description = "Персонаж не найден!")
     })
     @GetMapping("/{characterId}")
     public ResponseEntity<?> getCharacterById(@PathVariable("characterId") @NotNull @NotEmpty
@@ -58,10 +58,10 @@ public class CharactersController {
         return ResponseEntity.status(404).body("Персонаж не найден!");
     }
 
-    @ApiOperation(value = "Получение комиксов персонажа по id с сортировкой по имени и пагинацией")
+    @Operation(summary = "Получение комиксов персонажа по id",description = "Получение комиксов персонажа с сортировкой по имени и пагинацией")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Список комиксов"),
-            @ApiResponse(code = 404,message = "Персонаж не найден!")
+            @ApiResponse(responseCode = "200",description = "Список комиксов"),
+            @ApiResponse(responseCode = "404",description = "Персонаж не найден!")
     })
     @GetMapping("/{characterId}/comics")
     public ResponseEntity<?> getComicsByCharacterId(@PathVariable("characterId") @NotNull @NotEmpty String id,

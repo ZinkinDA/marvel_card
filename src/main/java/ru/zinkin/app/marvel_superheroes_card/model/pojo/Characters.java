@@ -23,7 +23,7 @@ public class Characters {
     @NotNull(message = "ID не может быть равен null")
     @NotEmpty(message = "ID не может быть пустым")
     @NotBlank(message = "ID не может быть пустым")
-    @Column(name = "id",updatable = false,length = 200)
+    @Column(name = "id",updatable = false,length = 200,nullable = false)
     private String id;
     @NotNull(message = "DURABILITY не может быть равен null")
     @Min(value = 0,message = "DURABILITY не может быть меньше 0")

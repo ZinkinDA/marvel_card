@@ -1,10 +1,9 @@
 package ru.zinkin.app.marvel_superheroes_card.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import jakarta.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +21,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/v1/public/comics")
 @RequiredArgsConstructor
-@Api(value = "Работа с комиксами",tags = {"comics"})
+@Tag(name = "Comics controller",description = "Получение информации о комиксах. (GET)")
 public class ComicsController {
 
     private final ComicsService comicsService;
-    @ApiOperation(value = "Получение комиксов с пагинацией и сортировкой по имени")
+    @Operation(summary = "Получение комиксов.",description = "Получение комиксов с пагинацией и сортировкой по имени")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Список комиксов"),
+            @ApiResponse(responseCode = "200",description = "Список комиксов"),
     })
     @GetMapping
     public ResponseEntity<?> getComicsAll(@RequestParam(value = "currentPage",required = false) Integer page,
@@ -45,10 +44,10 @@ public class ComicsController {
         return ResponseEntity.ok(comics);
     }
 
-    @ApiOperation(value = "Получение комикса по его Id")
+    @Operation(summary = "Получение комикса по его Id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Комикс по id"),
-            @ApiResponse(code = 404,message = "Комикс не найден!")
+            @ApiResponse(responseCode = "200",description = "Комикс по id"),
+            @ApiResponse(responseCode = "404",description = "Комикс не найден!")
     })
     @GetMapping("/{comicsId}")
     public ResponseEntity<?> getComicsById(@PathVariable("comicsId") @NotNull @NotEmpty String id){
@@ -59,10 +58,10 @@ public class ComicsController {
         return ResponseEntity.ok(comics.get());
     }
 
-    @ApiOperation(value = "Получение персонажей по Id комикса с сортировкой по имени")
+    @Operation(summary = "Получение персонажей.",description = "Получение персонажей по комиксу с сортировкой по имени")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Список персонажей комикса"),
-            @ApiResponse(code = 404,message = "Комикс не найдены!")
+            @ApiResponse(responseCode = "200",description = "Список персонажей комикса"),
+            @ApiResponse(responseCode = "404",description = "Комикс не найдены!")
     })
     @GetMapping("/{comicsId}/characters")
     public ResponseEntity<?> getCharactersByComicsId(@PathVariable("comicsId") @NotNull @NotEmpty String comicsId,

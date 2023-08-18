@@ -1,13 +1,10 @@
 package ru.zinkin.app.marvel_superheroes_card.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import jakarta.validation.ConstraintViolationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +33,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/v1/private/admin")
 @RequiredArgsConstructor
-@Api(value = "Работа c данными для заполнения таблиц", tags = {"Admin","POST/PUT request"})
+@Tag(name = "Admin controller",description = "Работа с персонажами,комиксами. (POST/PUT)")
 public class AdminController {
 
     private final Logger logger = Logger.getLogger("Admin");
@@ -45,11 +42,11 @@ public class AdminController {
     private final AbstractCharacterService characterService;
     private final ComicsService comicsService;
 
-    @ApiOperation(value = "Сохранение комикса",tags = {"Сохранение комикса"})
+    @Operation(summary = "Сохранение комикса",tags = {"Сохранение комикса","Комикс"},description = "Метод сохранения комикса.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201,message = "Комикс создан."),
-            @ApiResponse(code = 400 , message = "Не правильный ввод данных или персонаж уже существует."),
-            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных")
+            @ApiResponse(responseCode = "201",description = "Комикс создан"),
+            @ApiResponse(responseCode = "400" ,description = "Не правильный ввод данных или персонаж уже существует."),
+            @ApiResponse(responseCode = "400" , description = "Проверьте правильность ввода данных.")
     })
     @PostMapping("/comics/save")
     public ResponseEntity<?> saveComics(@RequestBody @NotNull @Valid RequestComicsDto requestComicsDto){
@@ -62,12 +59,11 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Комикс с именем %s создан. \n http://localhost:8091/v1/public/comics/%s",requestComicsDto.getName(),requestComicsDto.getId()));
     }
-
-    @ApiOperation(value = "Изменение комикса",tags = {"Изменение комикса"})
+    @Operation(summary = "Изменение комикса",tags = {"Изменение комикса","Комикс"},description = "Метод изменения комикса.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201,message = "Комикс изменен"),
-            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных"),
-            @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
+            @ApiResponse(responseCode = "201",description = "Комикс изменен"),
+            @ApiResponse(responseCode = "400",description = "Проверьте правильность ввода данных"),
+            @ApiResponse(responseCode = "400",description = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/comics/edit")
     public ResponseEntity<?> editComics(@RequestBody @Valid Comics comics){
@@ -78,11 +74,11 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Изменяемого пользователя не существует.");
     }
 
-    @ApiOperation(value = "Изменение фото для комикса",tags = {"Загрузка фото для комикса","Изменение фотографии комикса по ID"})
+    @Operation(summary = "Изменение фото для комикса",tags = {"Загрузка фотографии","Комикс","Изменение комикса"},description = "Метод изменения фотографии комикса.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Фото загружено и изменено"),
-            @ApiResponse(code = 401,message = "Не верный тип файла"),
-            @ApiResponse(code = 404,message = "Комикс не найден")
+            @ApiResponse(responseCode = "200",description = "Фото загружено и изменено"),
+            @ApiResponse(responseCode = "401",description = "Не верный тип файла"),
+            @ApiResponse(responseCode = "404",description = "Комикс не найден")
     })
     @PostMapping("/comics/upload/{comicsId}")
     public ResponseEntity<String> uploadPhotoForComics(@PathVariable("comicsId") String id, @RequestPart("img")MultipartFile multipartFile) throws IOException {
@@ -108,11 +104,11 @@ public class AdminController {
         return ResponseEntity.ok("Фотография загружена!");
     }
 
-    @ApiOperation(value = "Изменение фото для героя",tags = {"Сохранение комикса"})
+    @Operation(summary = "Изменение фото для героя",tags = {"Изменение персонажа","Загрузка фотографии","Персонаж"},description="Метод для загрузки и изменения фотографии по ID")
     @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "Фото загружено и изменено"),
-            @ApiResponse(code = 401,message = "Не верный тип файла"),
-            @ApiResponse(code = 404,message = "Комикс не найден")
+            @ApiResponse(responseCode = "200",description = "Фото загружено и изменено"),
+            @ApiResponse(responseCode = "401",description = "Не верный тип файла"),
+            @ApiResponse(responseCode = "404",description = "Комикс не найден")
     })
     @PostMapping("/character/upload/{characterId}")
     public ResponseEntity<String> uploadPhotoForCharacter(@PathVariable("characterId") String id,
@@ -139,11 +135,11 @@ public class AdminController {
         return ResponseEntity.ok("Фотография загружена!");
     }
 
-    @ApiOperation(value = "Сохранение героя",tags = {"Сохранение героя"})
+    @Operation(summary = "Сохранение героя",tags = {"Сохранение персонажа","Персонаж"},description = "Метод для сохранения персонажа")
     @ApiResponses(value = {
-            @ApiResponse(code = 201,message = "Герой сохранен"),
-            @ApiResponse(code = 400,message = "Такой ID уже существует"),
-            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных")
+            @ApiResponse(responseCode = "201",description = "Герой сохранен"),
+            @ApiResponse(responseCode = "400",description = "Такой ID уже существует"),
+            @ApiResponse(responseCode = "400",description = "Проверьте правильность ввода данных")
     })
     @PostMapping("/character/save")
     public ResponseEntity<?> saveCharacter(@RequestBody @NotNull @Valid RequestCharacterDto characterDto){
@@ -158,11 +154,11 @@ public class AdminController {
         }
     }
 
-    @ApiOperation(value = "Добавление персонажа комиксу",tags = {"Добавление комиксу героя по ID"})
+    @Operation(summary = "Добавление персонажа комиксу",tags = {"Персонаж","Комикс","Изменение персонажа","Изменение комикса"},description = "Метод для добавления персонажа к комиксу")
     @ApiResponses(value = {
-            @ApiResponse(code = 201,message = "Персонаж добавлен к комиксу"),
-            @ApiResponse(code = 404,message = "Персонаж не найден"),
-            @ApiResponse(code = 404,message = "Комикс не найден")
+            @ApiResponse(responseCode = "201",description = "Персонаж добавлен к комиксу"),
+            @ApiResponse(responseCode = "404",description = "Персонаж не найден"),
+            @ApiResponse(responseCode = "404",description = "Комикс не найден")
     })
     @PutMapping("/comics/{comicsId}/add-hero")
     public ResponseEntity<?> addCharacterToComics(@PathVariable("comicsId") @NotNull @NotEmpty String comicsId,
@@ -181,11 +177,11 @@ public class AdminController {
         return ResponseEntity.status(200).body("Персонаж добавлен к комиксу");
     }
 
-    @ApiOperation(value = "Изменение персонажа",tags = {"Изменение персонажа"})
+    @Operation(summary = "Изменение персонажа",tags = {"Изменение персонажа"},description = "Метод для изменения персонажа.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201,message = "Персонаж изменен"),
-            @ApiResponse(code = 400,message = "Проверьте правильность ввода данных"),
-            @ApiResponse(code = 400,message = "Изменяемого пользователя не существует.")
+            @ApiResponse(responseCode = "201",description = "Персонаж изменен"),
+            @ApiResponse(responseCode = "400",description = "Проверьте правильность ввода данных"),
+            @ApiResponse(responseCode = "400",description = "Изменяемого пользователя не существует.")
     })
     @PutMapping("/character/edit")
     public ResponseEntity<?> editCharacter(@RequestBody @Valid Characters comics){
