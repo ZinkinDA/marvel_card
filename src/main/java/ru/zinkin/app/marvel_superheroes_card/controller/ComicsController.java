@@ -56,8 +56,7 @@ public class ComicsController {
             return ResponseEntity.status(404).body("Комикс не найдены!");
         }
         Optional<Comics> comics = comicsService.getComicsById(id);
-
-        return ResponseEntity.ok(comics);
+        return ResponseEntity.ok(comics.get());
     }
 
     @ApiOperation(value = "Получение персонажей по Id комикса с сортировкой по имени")
